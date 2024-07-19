@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (validUsers[username] === password) {
             infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
             setTimeout(function() {
-                window.location.href = 'https://www.codemaster.ltd/pages/beta'; // Redirect to the dashboard or another page
+                window.location.href = 'https://codemaster.ltd/pages/beta'; // Redirect to the dashboard or another page
             }, 1000); // Delay for the message to be seen
         } else {
             infoDiv.innerHTML = '<p>Invalid username or password.</p>';
