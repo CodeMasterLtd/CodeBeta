@@ -2,43 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Code Weather | Code Master</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" id="icon1">
-    <link rel="shortcut icon" id="icon2" type="image/png">
+    <title>Beta Login | Code Master</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 <body>
-    <div class="welcome">
-        <p id="welcomeText"></p>
-    </div>
-    <div class="bk hidden">
-    <div class="weather-app">
-        <header>
-            <img id="main-logo" alt="Code Weather" class="logo">           
-            <h1>Code Weather<p>Where Code Meets Climate</p></h1>
-            <div class="line"></div>
-        </header>
-        <main>
-            <div class="search-container">
-                <div class="search-input-wrapper">
-                    <input type="search" id="city-input" placeholder="Search for a place">
-                    <button id="search-btn" class="search-btn"><i class="fas fa-search"></i></button>
-                </div>
-                <button id="search-btn2" class="search-btn">
-                    <i class="fas fa-location-arrow"></i>
-                    <span class="hidden-text"> Use my current location</span>
-                </button>
-            </div>
-            <div id="weather-info" class="weather-info">
-                <!-- Weather information will be dynamically added here -->
-            </div>
-        </main>
+    <div class="login-container">
+        <div id="user-role"></div>
+        <div class="beta-banner">BETA</div>
+        <div class="beta-badge">
+            <img src="https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471" style="border-radius: 50px; box-shadow: 0 0 5px #000;" alt="Your Logo" width="85">
+        </div>
+        <h1 id="welcome"></h1>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Username *" required>
+            <input type="password" id="password" placeholder="Password *" required>
+            <button type="submit">Log In</button>
+            <br></br>
+            <label for="role">Your Role:</label>
+            <select id="role" name="role" required>
+                <option value="beta">Beta</option>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+            </select><span style="color: red; text-shadow: #fff 0 0 20px;"> *</span>
+        </form>
+        <div id="warning" class="warning"></div>
+        <div id="info" class="info">
+            <p>Welcome to Code Master Beta.</p>
+            <p>If you encounter any issues, or you want to reset password - please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+        </div>
         <footer>
-            <div class="currentTime" id="currentTime"></div>
-            ©<span id="currentYear"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.
-            <div id="version"></div>
+            ©<span id="footer"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.
         </footer>
     </div>
     <script src="script.js"></script>
