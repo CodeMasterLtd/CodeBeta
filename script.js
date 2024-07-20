@@ -1,13 +1,21 @@
 document.addEventListener("DOMContentLoaded", function() {
     let validUsers = [
         {
+            "discordName": "CEO - SMURF",
             "name": "Kieran",
             "password": "Caitlin230124",
             "role": "Admin"
         },
         {
-            "name": "user",
-            "password": "user",
+            "discordName": "𝕊𝕜𝕦𝕥𝕖𝕝𝕒𝟛𝟚",
+            "name": "Skutela",
+            "password": "Skutela21072024",
+            "role": "Staff"
+        }
+        {
+            "discordName": "ByQuadiix™",
+            "name": "ByQuadiix",
+            "password": "ByQuadiix21072024",
             "role": "Beta"
         }
     ];
@@ -27,12 +35,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const loginForm = document.getElementById('login-form');
     const infoDiv = document.getElementById('info');
-    const warningBox = document.getElementById('warning');
     const welcome = document.getElementById('welcome');
-    const footer = document.getElementById('footer');
     const userrole = document.getElementById('user-role');
-
-    warningBox.style.backgroundImage = "url('https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471&width=140')";
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
@@ -45,30 +49,25 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log(`Password: ${password}`);  // Debugging log
             console.log(`Role: ${selectedRole}`);  // Debugging log
 
-            let user = validUsers.find(user => user.name === username && user.password === password && user.role.toLowerCase() === selectedRole.toLowerCase());
+            let user = validUsers.find(user => 
+                user.name === username && 
+                user.password === password && 
+                user.role.toLowerCase() === selectedRole.toLowerCase()
+            );
 
             if (user) {
                 welcome.innerHTML = 'Welcome, ' + username;
-                warningBox.style.color = '#000';
-                warningBox.style.backgroundImage = "";
-                warningBox.style.backgroundColor = 'green';
-                warningBox.innerHTML = '<h3>Success</h3>';
 
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
-                sendDiscordNotification1(username, 'has successfully logged in.');
+                sendDiscordNotification1(user.discordName, 'has successfully logged in.');
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
                 setTimeout(function() {
                     window.location.href = 'https://codemaster.ltd/pages/beta'; // Redirect to the dashboard or another page
                 }, 3000); // Delay for the message to be seen
             } else {
                 welcome.innerHTML = '';
-                warningBox.style.color = '#000';
-                warningBox.style.backgroundImage = "";
-                warningBox.style.backgroundColor = 'red';
-                warningBox.innerHTML = '<h3>Error</h3>';
-                warningBox.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
 
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'red';
@@ -78,18 +77,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function copyRight() {
-        const currentYear = new Date().getFullYear();
-        if (currentYear === 2025) {
-            footer.innerHTML = " 2024";
-        } else {
-            footer.innerHTML = " 2024 - " + currentYear;
+        const footer = document.getElementById('footer');
+        if (footer) {
+            const currentYear = new Date().getFullYear();
+            if (currentYear === 2024) {
+                footer.innerHTML = " 2024";
+            } else {
+                footer.innerHTML = ` 2024 - ${currentYear}`;
+            }
         }
     }
 
     const DISCORD_WEBHOOK_URL2 = 'https://discord.com/api/webhooks/1264315006854496288/JZz_aHj85UAm5aipAPkbV2eWtNj4IddhhwQ1SKNF5AcIPbpStWTa4BH1SSG_eUFmyZCD';
-    function sendDiscordNotification1(username, action) {
+    function sendDiscordNotification1(discordName, action) {
         const message = {
-            content: `User ${username} ${action}`,
+            content: `User @${discordName} ${action}`,
             username: 'Code Master Beta Login'
         };
 
