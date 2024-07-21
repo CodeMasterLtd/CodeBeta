@@ -1,4 +1,4 @@
-import { getUsers, getWebhook } from './users.js';
+import { getUsers, getWebhook, updateUserPassword } from './users.js';
 const overrideTime = false;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
     addFontAndIconLinks();
 
     const loginForm = document.getElementById('login-form');
+    const resetForm = document.getElementById('reset-form');
+    const resetPasswordButton = document.getElementById('reset-password-button');
     const infoDiv = document.getElementById('info');
     const welcome = document.getElementById('welcome');
     const userrole = document.getElementById('user-role');
@@ -96,16 +98,60 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }    
 
+    if (resetPasswordButton) {
+        resetPasswordButton.addEventListener('click', function() {
+            resetForm.style.display = resetForm.style.display === 'none' ? 'block' : 'none';
+            resetPasswordButton.style.display = 'none';
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
+    if (resetForm) {
+        resetForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const resetUsername = document.getElementById('reset-username').value.trim();
+            const newPassword = document.getElementById('new-password').value.trim();
+            
+            let user = validUsers.find(user => user.name === resetUsername);
+            
+            if (user) {
+                updateUserPassword(resetUsername, newPassword);
+                infoDiv.style.fontSize = '1.2em';
+                infoDiv.style.color = 'green';
+                infoDiv.innerHTML = '<p>Password reset successful! You can now log in with your new password.</p>';
+                resetForm.style.display = 'none';
+                timeOut();
+                form();
+            } else {
+                infoDiv.style.fontSize = '1.2em';
+                infoDiv.style.color = 'red';
+                infoDiv.innerHTML = '<p>Invalid username. Please try again.</p>';
+                timeOut();
+                form();
+            }
+        });
+    }
+
     function timeOut() {
         setTimeout(function() {
             infoDiv.style.fontSize = '14px';
             infoDiv.style.color = 'white';
             infoDiv.innerHTML = `
                 <p>Welcome to Code Master Beta.</p>
-                <p>If you encounter any issues, or you want to reset password - please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+                <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
             `;
         }, 2000);
     }
+
+    function form() {
+        setTimeout(function() {
+            if (loginForm) {
+                loginForm.style.display = 'block';
+                resetForm.style.display = 'none';
+            }
+        }, 2000)
+    }
+
 
     function copyRight() {
         if (footer) {

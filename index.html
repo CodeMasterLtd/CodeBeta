@@ -14,7 +14,7 @@
             <img src="https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471" style="border-radius: 50px; box-shadow: 0 0 5px #000;" alt="Your Logo" width="85">
         </div>
         <h1 id="welcome"></h1>
-        <form id="login-form">
+        <form id="login-form" style="display: block;">
             <input type="text" id="username" placeholder="Username *" required>
             <input type="password" id="password" placeholder="Password *" required>
             <button type="submit">Log In</button>
@@ -26,9 +26,15 @@
                 <option value="beta">Beta</option>
             </select><span style="color: red; text-shadow: #fff 0 0 20px;"> *</span>
         </form>
+        <button class="resetBtn" id="reset-password-button">Reset Password</button>
+        <form id="reset-form" style="display: none;">
+            <input type="text" id="reset-username" placeholder="Enter your username *" required>
+            <input type="password" id="new-password" placeholder="Enter new password *" required>
+            <button type="submit">Reset</button>
+        </form>
         <div id="info" class="info">
             <p>Welcome to Code Master Beta.</p>
-            <p>If you encounter any issues, or you want to reset password - please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+            <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
         </div>
         <footer>
             ©<span id="footer"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.

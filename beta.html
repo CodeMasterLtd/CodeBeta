@@ -205,5 +205,52 @@
     <footer>
         &copy; 2024 Code Master. All rights reserved.
     </footer>
+
+    <script type="module">
+        import { getDownloadWebhook } from './users.js';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const webhookURL = getDownloadWebhook(); // Fetch the webhook URL
+
+            // Ensure the variable is correctly fetched
+            if (!webhookURL) {
+                console.error('Webhook URL is not set.');
+                return;
+            }
+
+            const downloadLinks = document.querySelectorAll('.download-button a');
+            downloadLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const productName = link.closest('.feature').querySelector('h2').textContent;
+                    const discordID = "1236105830051483759"; // Replace with the actual Discord User ID
+                    const message = `<@${discordID}>, Someone downloaded: **${productName}**. We hope you like it. Put 👍 if you do!`;
+                    sendDiscordNotification(message);
+                });
+            });
+
+        function sendDiscordNotification(message) {
+            const payload = {
+                content: message,
+                username: 'Beta Downloads | Code Master'
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Notification sent successfully');
+                } else {
+                    console.error('Error sending notification:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error sending notification:', error));
+        }
+    });
+    </script>
 </body>
 </html>
