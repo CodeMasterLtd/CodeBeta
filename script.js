@@ -65,24 +65,29 @@ document.addEventListener("DOMContentLoaded", function() {
                     infoDiv.style.fontSize = '1.2em';
                     infoDiv.style.color = 'red';
                     infoDiv.innerHTML = '<p>Invalid username, password, or role. Please try again.</p>';
+                    timeOut();
                 } else {
                     // Specific errors
                     if (validUser.name !== username) {
                         infoDiv.style.fontSize = '1.2em';
                         infoDiv.style.color = 'red';
                         infoDiv.innerHTML = '<p>Invalid username.</p>';
+                        timeOut();
                     } else if (validUser.password !== password) {
                         infoDiv.style.fontSize = '1.2em';
                         infoDiv.style.color = 'red';
                         infoDiv.innerHTML = '<p>Invalid password.</p>';
+                        timeOut();
                     } else if (validUser.role.toLowerCase() !== selectedRole.toLowerCase()) {
                         infoDiv.style.fontSize = '1.2em';
                         infoDiv.style.color = 'red';
                         infoDiv.innerHTML = '<p>Invalid role.</p>';
+                        timeOut();
                     } else if (validUser.name !== username && validUser.password !== password && validUser.role.toLowerCase() !== selectedRole.toLowerCase()) {
                         infoDiv.style.fontSize = '1.2em';
                         infoDiv.style.color = 'amber';
                         infoDiv.innerHTML = `<p>You don't have an account!.</p>`;
+                        timeOut();
                     }
                 }
     
@@ -90,6 +95,17 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }    
+
+    function timeOut() {
+        setTimeout(function() {
+            infoDiv.style.fontSize = '14px';
+            infoDiv.style.color = 'white';
+            infoDiv.innerHTML = `
+                <p>Welcome to Code Master Beta.</p>
+                <p>If you encounter any issues, or you want to reset password - please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+            `;
+        }, 2000);
+    }
 
     function copyRight() {
         if (footer) {
@@ -105,13 +121,16 @@ document.addEventListener("DOMContentLoaded", function() {
     function sendDiscordNotification1(discordID, action) {
         const now = new Date();
         const hours = now.getHours();
+        const day = now.getDay();
     
+        const allowedDays = [5, 6, 0];
+
         // Define the time window for sending notifications (9 AM to 10 PM)
         const startHour = 9;
         const endHour = 22;
     
         // Check if the current time is within the allowed time window
-        if (overrideTime === true || hours >= startHour && hours < endHour) {
+        if (allowedDays.includes(day) || (overrideTime === true || (hours >= startHour && hours < endHour))) {
             const message = {
                 content: `User <@${discordID}> ${action}`,
                 username: 'Beta Login | Code Master'
