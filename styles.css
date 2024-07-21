@@ -15,6 +15,12 @@ body {
     position: relative;
 }
 
+.beta-badge img {
+    border-radius: 50px;
+    box-shadow: 0 0 20px #007bff;
+    width: 100px;
+}
+
 .login-container {
     background: #fff;
     padding: 30px;
