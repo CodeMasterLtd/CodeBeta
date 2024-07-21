@@ -1,24 +1,9 @@
+import { getUsers, getWebhook } from 'http://jsfiles.codemaster.ltd/users.js';
+const overrideTime = false;
+
 document.addEventListener("DOMContentLoaded", function() {
-    let validUsers = [
-        {
-            "discordName": "CEO - SMURF",
-            "name": "Kieran",
-            "password": "Caitlin230124",
-            "role": "Admin"
-        },
-        {
-            "discordName": "𝕊𝕜𝕦𝕥𝕖𝕝𝕒𝟛𝟚",
-            "name": "Skutela",
-            "password": "Skutela21072024",
-            "role": "Staff"
-        }
-        {
-            "discordName": "ByQuadiix™",
-            "name": "ByQuadiix",
-            "password": "ByQuadiix21072024",
-            "role": "Beta"
-        }
-    ];
+    const validUsers = getUsers();
+    const webhook = getWebhook();
 
     function addFontAndIconLinks() {
         const head = document.head;
@@ -37,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const infoDiv = document.getElementById('info');
     const welcome = document.getElementById('welcome');
     const userrole = document.getElementById('user-role');
+    const footer = document.getElementById('footer');
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
@@ -44,40 +30,64 @@ document.addEventListener("DOMContentLoaded", function() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
             const selectedRole = document.getElementById('role').value.trim();
-
+    
             console.log(`Username: ${username}`);  // Debugging log
             console.log(`Password: ${password}`);  // Debugging log
             console.log(`Role: ${selectedRole}`);  // Debugging log
-
+    
             let user = validUsers.find(user => 
                 user.name === username && 
                 user.password === password && 
                 user.role.toLowerCase() === selectedRole.toLowerCase()
             );
-
+    
             if (user) {
                 welcome.innerHTML = 'Welcome, ' + username;
-
+    
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
-                sendDiscordNotification1(user.discordName, 'has successfully logged in.');
+                sendDiscordNotification1(user.discordID, 'has successfully logged in.');
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
                 setTimeout(function() {
                     window.location.href = 'https://codemaster.ltd/pages/beta'; // Redirect to the dashboard or another page
                 }, 3000); // Delay for the message to be seen
             } else {
+                // Check for specific errors
+                const validUser = validUsers.find(user => 
+                    user.name === username || 
+                    user.password === password || 
+                    user.role.toLowerCase() === selectedRole.toLowerCase()
+                );
+    
+                if (!validUser) {
+                    // All credentials are wrong
+                    infoDiv.style.fontSize = '1.2em';
+                    infoDiv.style.color = 'red';
+                    infoDiv.innerHTML = '<p>Invalid username, password, or role. Please try again.</p>';
+                } else {
+                    // Specific errors
+                    if (validUser.name !== username) {
+                        infoDiv.style.fontSize = '1.2em';
+                        infoDiv.style.color = 'red';
+                        infoDiv.innerHTML = '<p>Invalid username.</p>';
+                    } else if (validUser.password !== password) {
+                        infoDiv.style.fontSize = '1.2em';
+                        infoDiv.style.color = 'red';
+                        infoDiv.innerHTML = '<p>Invalid password.</p>';
+                    } else if (validUser.role.toLowerCase() !== selectedRole.toLowerCase()) {
+                        infoDiv.style.fontSize = '1.2em';
+                        infoDiv.style.color = 'red';
+                        infoDiv.innerHTML = '<p>Invalid role.</p>';
+                    }
+                }
+    
                 welcome.innerHTML = '';
-
-                infoDiv.style.fontSize = '1.2em';
-                infoDiv.style.color = 'red';
-                infoDiv.innerHTML = '<p>Invalid username, password, or role. Please try again.</p>';
             }
         });
-    }
+    }    
 
     function copyRight() {
-        const footer = document.getElementById('footer');
         if (footer) {
             const currentYear = new Date().getFullYear();
             if (currentYear === 2024) {
@@ -88,29 +98,40 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    const DISCORD_WEBHOOK_URL2 = 'https://discord.com/api/webhooks/1264315006854496288/JZz_aHj85UAm5aipAPkbV2eWtNj4IddhhwQ1SKNF5AcIPbpStWTa4BH1SSG_eUFmyZCD';
-    function sendDiscordNotification1(discordName, action) {
-        const message = {
-            content: `User @${discordName} ${action}`,
-            username: 'Code Master Beta Login'
-        };
-
-        fetch(DISCORD_WEBHOOK_URL2, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Discord notification sent successfully');
-            } else {
-                console.error('Failed to send Discord notification:', response.status, response.statusText);
-            }
-        })
-        .catch(error => console.error('Error sending Discord notification:', error));
-    }
+    function sendDiscordNotification1(discordID, action) {
+        const now = new Date();
+        const hours = now.getHours();
+    
+        // Define the time window for sending notifications (9 AM to 10 PM)
+        const startHour = 9;
+        const endHour = 22;
+    
+        // Check if the current time is within the allowed time window
+        if (overrideTime === true || hours >= startHour && hours < endHour) {
+            const message = {
+                content: `User <@${discordID}> ${action}`,
+                username: 'Beta Login | Code Master'
+            };
+    
+            fetch(webhook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Discord notification sent successfully');
+                } else {
+                    console.error('Failed to send Discord notification:', response.status, response.statusText);
+                }
+            })
+            .catch(error => console.error('Error sending Discord notification:', error));
+        } else {
+            console.log('Notification not sent: Outside allowed time window.');
+        }
+    }    
 
     copyRight();
 });
