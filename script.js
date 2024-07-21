@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const iconLink = document.createElement('link');
         iconLink.type = 'image/png';
-        iconLink.rel = 'icon';
+        iconLink.rel = 'icon' || 'shortcut icon' || 'apple-touch-icon';
         iconLink.href = 'img/logo.png';
-        iconLink.sizes = '180x180 192x192 512x512';
+        iconLink.sizes = '180x180' || '192x192' || '512x512';
         head.appendChild(iconLink);
     }
 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 sendDiscordNotification1(user.discordID, 'has successfully logged in.');
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
                 setTimeout(function() {
-                    window.location.href = 'https://codemaster.ltd/pages/beta'; // Redirect to the dashboard or another page
+                    window.location.href = './beta.html'; // Redirect to the dashboard or another page
                 }, 3000); // Delay for the message to be seen
             } else {
                 // Check for specific errors
@@ -79,6 +79,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         infoDiv.style.fontSize = '1.2em';
                         infoDiv.style.color = 'red';
                         infoDiv.innerHTML = '<p>Invalid role.</p>';
+                    } else if (validUser.name !== username && validUser.password !== password && validUser.role.toLowerCase() !== selectedRole.toLowerCase()) {
+                        infoDiv.style.fontSize = '1.2em';
+                        infoDiv.style.color = 'amber';
+                        infoDiv.innerHTML = `<p>You don't have an account!.</p>`;
                     }
                 }
     
