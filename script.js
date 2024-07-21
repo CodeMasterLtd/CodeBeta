@@ -1,4 +1,4 @@
-import { getUsers, getWebhook } from 'http://jsfiles.codemaster.ltd/users.js';
+import { getUsers, getWebhook } from './users.js';
 const overrideTime = false;
 
 document.addEventListener("DOMContentLoaded", function() {
