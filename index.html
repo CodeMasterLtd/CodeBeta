@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="popupAd" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Discover Code Master</h2>
+            <img src="https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471&width=140" alt="CodeMaster Logo">
+            <p>Your ultimate destination for mastering coding. Visit <strong>Code Master</strong> to explore our shop, games, tools, and more.</p>
+            <button onclick="visitWebsite()">Visit Now</button>
+        </div>
+    </div>
     <div class="login-container">
         <div id="user-role"></div>
         <div class="beta-banner">BETA</div>
@@ -37,9 +46,29 @@
             <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
         </div>
         <footer>
-            ©<span id="footer"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.
+            © <span id="footer"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.
         </footer>
     </div>
     <script src="script.js" type="module"></script>
+    <script>
+        const def = 1500
+        function showPopup() {
+    document.getElementById('popupAd').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('popupAd').style.display = 'none';
+}
+
+function visitWebsite() {
+    window.open('http://www.codemastler.ltd', '_blank');
+    closePopup();
+}
+
+// Show the popup ad after a delay (e.g., 5 seconds)
+window.onload = function() {
+    setTimeout(showPopup, def);
+};
+    </script>
 </body>
 </html>

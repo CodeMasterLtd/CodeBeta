@@ -131,17 +131,17 @@ function time() {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    if (hours >= 3 && hours < 12) {
-        setTimeout(timeOut, 2500);
+    if (hours >= 0 && hours < 12) {
+        setTimeout(timeOut, 5000);
         infoDiv.innerHTML = '<p>Good Morning</p>';
     } else if (hours >= 12 && hours < 18) {
-        setTimeout(timeOut, 2500);
+        setTimeout(timeOut, 5000);
         infoDiv.innerHTML = '<p>Good Afternoon</p>';
     } else if (hours >= 18 && hours < 22) {
-        setTimeout(timeOut, 2500);
+        setTimeout(timeOut, 5000);
         infoDiv.innerHTML = '<p>Good Evening</p>';
     } else {
-        setTimeout(timeOut, 2500);
+        setTimeout(timeOut, 5000);
         infoDiv.innerHTML = '<p>Good Night</p>';
     }
 
