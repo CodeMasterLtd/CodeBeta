@@ -5,9 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="apple-touch-icon" href="img/logo.png">
         <link rel="icon" href="img/logo.png" type="image/png">
+        <link rel="stylesheet" href="styles.css">
     <title>Beta Logout | Code Master</title>
     <style>
-        body {
+        .mainBody {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -24,12 +25,32 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
+
     </style>
 </head>
 <body>
+    <div class="login-container">
+        <div class="beta-banner">BETA</div>
+        <div class="beta-badge">
+            <img id="profile-picture" src="https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471" alt="Default Profile Picture">
+        </div>
     <div class="message" id="message">Goodbye, Username! See you soon!</div>
-
+    <div id="info" class="info">
+        <p>Thank you for using Code Master Beta.</p>
+        <p>If you encountered any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+    </div>
+    <footer>
+        © <span id="footer"></span> <a href="https://www.codemaster.ltd">Code Master</a> All rights reserved.
+    </footer>
+</div>
     <script>
+        const footer = document.getElementById('footer');
+
+        function copyRight() {
+            const currentYear = new Date().getFullYear();
+            footer.innerHTML = (currentYear === 2024) ? "2024" : `2024 - ${currentYear}`;
+        }
+
         function displayGoodbyeMessage() {
             const username = localStorage.getItem('username');
             const messageElement = document.getElementById('message');
@@ -40,14 +61,16 @@
                 messageElement.textContent = 'Goodbye! See you soon!';
             }
             setTimeout(function() {
-                window.location.href = 'index.html';
-            }, 5000);
+                window.location.href = 'https://www.codemaster.ltd/';
+            }, 4500);
         }
 
         // Run this function when the page loads
         window.onload = function() {
             displayGoodbyeMessage();
         };
+
+        copyRight();
     </script>
 </body>
 </html>

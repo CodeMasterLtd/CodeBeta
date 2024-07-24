@@ -163,7 +163,7 @@
             top: 10px;
             right: 10px;
             padding: 10px 20px;
-            background-color: #ff4c4c;
+            background-color: #ff4c4c00;
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -181,6 +181,19 @@
             left: 10px;
             position: absolute;
             top: -10px;
+        }
+
+        @media (max-width: 768px) {
+            #user {
+                font-size: 13px;
+            }
+            .logout-button {
+            padding: 5px 10px;
+            border: none;
+        }
+          h1 {
+            font-size: 30px;
+        }
         }
     </style>
 </head>
@@ -254,7 +267,15 @@
                     user.textContent = `Good Night, ${username}`;
                 }
             } else {
-                user.textContent = 'Welcome, User';
+                if (hours >= 0 && hours < 12) {
+                    user.textContent = `Good Morning`;
+                } else if (hours >= 12 && hours < 18) {
+                    user.textContent = `Good Afternoon`;
+                } else if (hours >= 18 && hours < 22) {
+                    user.textContent = `Good Evening`;
+                } else {
+                    user.textContent = `Good Night`;
+                }
             }
     
             if (logoutBtn) {

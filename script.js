@@ -4,10 +4,8 @@ const loginForm = document.getElementById('login-form');
 const resetForm = document.getElementById('reset-form');
 const resetPasswordButton = document.getElementById('reset-password-button');
 const infoDiv = document.getElementById('info');
-const welcome = document.getElementById('welcome');
-const userrole = document.getElementById('user-role');
 const footer = document.getElementById('footer');
-const profilePicture = document.getElementById('profile-picture');
+
 
 resetPasswordButton.style.display = 'none';
 let validUsers = getUsers();
