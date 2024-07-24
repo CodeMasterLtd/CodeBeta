@@ -2,11 +2,11 @@ export const webhook = 'https://discord.com/api/webhooks/1264315006854496288/JZz
 export const bug = '1236105830051483759';
 export const webhookBug = 'https://discord.com/api/webhooks/1264374034481807380/LPro6kkYJdvwM_rBTjhNRYqrvhKDLxFgw95zuhcdP2CzX8tUtmKXYhCIUmhO7BDcJa26';
 
-export const admins = [
+const initialAdmins = [
     {
         "discordID": "1030462659092545546", // CEO
         "name": "Kieran",
-        "password": "Caitlin230124",
+        "password": "Caitlin",
         "role": "Admin",
         "discordPhoto": 'https://cdn.discordapp.com/avatars/1030462659092545546/600bd29a4928ee579815a44e2fd17515.png?size=1024'
     },
@@ -19,7 +19,7 @@ export const admins = [
     }
 ];
 
-export const staff = [
+const initialStaff = [
     {
         "discordID": "871902966540542002", // Staff
         "name": "Skutela",
@@ -29,7 +29,7 @@ export const staff = [
     }
 ];
 
-export const beta = [
+const initialBeta = [
     {
         "discordID": "861592808179499008", /// Beta
         "name": "ByQuadiix",
@@ -39,8 +39,19 @@ export const beta = [
     }
 ];
 
+function getInitialUsers() {
+    return [...initialAdmins, ...initialStaff, ...initialBeta];
+}
+
 export function getUsers() {
-    return [...admins, ...staff, ...beta];
+    const users = localStorage.getItem('users');
+    if (users) {
+        return JSON.parse(users);
+    } else {
+        const initialUsers = getInitialUsers();
+        saveUsers(initialUsers);
+        return initialUsers;
+    }
 }
 
 export function getWebhook() {
@@ -55,12 +66,16 @@ export function bugError() {
     return bug;
 }
 
+export function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
 export function updateUserPassword(username, newPassword) {
-    let user = admins.find(user => user.name === username) || 
-               staff.find(user => user.name === username) || 
-               beta.find(user => user.name === username);
+    const users = getUsers();
+    let user = users.find(user => user.name === username);
     
     if (user) {
-        user.password = newPassword || 'CodeMaster2024';
+        user.password = newPassword;
+        saveUsers(users);
     }
 }

@@ -28,12 +28,6 @@
             <input type="password" id="password" placeholder="Password *" required>
             <button type="submit">Log In</button>
             <br></br>
-            <label for="role">Pick your Role:</label>
-            <select id="role" name="role" required>
-                <option value="admin">Admin</option>
-                <option value="staff">Staff</option>
-                <option value="beta">Beta</option>
-            </select><span style="color: red; text-shadow: #fff 0 0 20px;"> *</span>
         </form>
         <button class="resetBtn" id="reset-password-button">Reset Password</button>
         <form id="reset-form" style="display: none;">
@@ -46,11 +40,12 @@
             <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
         </div>
         <footer>
-            © <span id="footer"></span> <a href="http://www.codemaster.ltd">Code Master</a> All rights reserved.
+            © <span id="footer"></span> <a href="https://www.codemaster.ltd">Code Master</a> All rights reserved.
         </footer>
     </div>
     <script src="script.js" type="module"></script>
     <script>
+        const showAds = false
         const def = 1500
         function showPopup() {
     document.getElementById('popupAd').style.display = 'flex';
@@ -61,14 +56,16 @@ function closePopup() {
 }
 
 function visitWebsite() {
-    window.open('http://www.codemastler.ltd', '_blank');
+    window.open('https://www.codemaster.ltd', '_blank');
     closePopup();
 }
 
 // Show the popup ad after a delay (e.g., 5 seconds)
-window.onload = function() {
+if (showAds) {
+    window.onload = function() {
     setTimeout(showPopup, def);
 };
+}
     </script>
 </body>
 </html>

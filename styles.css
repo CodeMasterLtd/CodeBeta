@@ -39,7 +39,8 @@
 }
 
 .popup h2 {
-    font-size: 35px;
+    font-size: 12x;
+    padding: 5px;
     color: #fff;
 }
 
@@ -162,19 +163,20 @@ button {
     background-color: #007bff;
     color: #090808;
     border: none;
-    padding: 15px;
+    padding: 5px;
     border-radius: 50px;
     cursor: pointer;
-    width: 60%;
+    width: 40%;
     font-size: 16px;
     font-weight: bold;
     box-shadow: inset #000 0 0 5px;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #0056b3;
-    box-shadow: #000 0 0 5px;
+    color: #fff;
+    box-shadow:inset #000 0 0 5px;
 }
 
 .btn-secondary {
@@ -250,6 +252,7 @@ footer {
 }
 
 .resetBtn {
+    display: none;
     margin-top: 20px;
     background-color: #ff0000;
     color: #fff;

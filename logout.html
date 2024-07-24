@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" href="img/logo.png">
+        <link rel="icon" href="img/logo.png" type="image/png">
+    <title>Beta Logout | Code Master</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="message" id="message">Goodbye, Username! See you soon!</div>
+
+    <script>
+        function displayGoodbyeMessage() {
+            const username = localStorage.getItem('username');
+            const messageElement = document.getElementById('message');
+
+            if (username) {
+                messageElement.textContent = `Goodbye, ${username}! See you soon!`;
+            } else {
+                messageElement.textContent = 'Goodbye! See you soon!';
+            }
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 5000);
+        }
+
+        // Run this function when the page loads
+        window.onload = function() {
+            displayGoodbyeMessage();
+        };
+    </script>
+</body>
+</html>

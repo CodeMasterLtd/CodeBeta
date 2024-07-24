@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="img/logo.png">
     <link rel="icon" href="img/logo.png" type="image/png">
@@ -20,12 +20,13 @@
             padding: 10px;
             text-align: center;
             font-size: 20px;
+            position: relative; /* Ensure positioning for the logout button */
         }
 
         header img {
             border-radius: 20px;
             box-shadow: 0 0 5px #0099ff;
-            width: 100px; /* Adjusted for responsiveness */
+            width: 100px;
             height: auto;
         }
 
@@ -83,7 +84,7 @@
             max-width: 100%;
             border-radius: 8px;
             margin-bottom: 10px;
-            height: auto; /* Ensure images scale properly */
+            height: auto;
         }
 
         .download-button {
@@ -155,12 +156,40 @@
                 width: 70px;
             }
         }
+
+        /* Logout button */
+        .logout-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #ff4c4c;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #d43f3f;
+        }
+
+        #user {
+            font-size: 18px;
+            color: #FFF;
+            margin-bottom: 10px;
+            left: 10px;
+            position: absolute;
+            top: -10px;
+        }
     </style>
 </head>
 <body>
     <header>
+        <h3 id="user"></h3>
         <img src="img/logo.png" alt="Your Logo">
         <h1>Code Master Beta</h1>
+        <button class="logout-button" id="logout-button">Logout</button>
     </header>
 
     <div class="container">
@@ -190,7 +219,7 @@
                 </div>
                 <div class="feature">
                     <img src="https://www.codemaster.ltd/cdn/shop/files/bd2ac21b806766ae44713d761d19c381dc312eab.png?v=1719248061" alt="Feature 3">
-                    <h2>2016 Ford Focus RS (GCM)</h2>
+                    <h2>2016 Ford Focus RS (GCM)</h3>
                     <h3>FiveM & SP</h3>
                     <p>Semi Realistic Handling, ELS, Based on IRL car.</p>
                     <div class="download-button">
@@ -205,5 +234,35 @@
     <footer>
         &copy; 2024 Code Master. All rights reserved.
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logout-button');
+            const user = document.getElementById('user');
+            const username = localStorage.getItem('username');
+            const now = new Date();
+            const hours = now.getHours();
+    
+            if (username) {
+                if (hours >= 0 && hours < 12) {
+                    user.textContent = `Good Morning, ${username}`;
+                } else if (hours >= 12 && hours < 18) {
+                    user.textContent = `Good Afternoon, ${username}`;
+                } else if (hours >= 18 && hours < 22) {
+                    user.textContent = `Good Evening, ${username}`;
+                } else {
+                    user.textContent = `Good Night, ${username}`;
+                }
+            } else {
+                user.textContent = 'Welcome, User';
+            }
+    
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    window.location.href = './logout.html';
+                });
+            }
+        });
+    </script>    
 </body>
 </html>

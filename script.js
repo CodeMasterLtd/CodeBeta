@@ -9,7 +9,8 @@ const userrole = document.getElementById('user-role');
 const footer = document.getElementById('footer');
 const profilePicture = document.getElementById('profile-picture');
 
-let validUsers;
+resetPasswordButton.style.display = 'none';
+let validUsers = getUsers();
 const webhook = getWebhook();
 const bugerror = bugError();
 const bugwebhook = getWebhookBug();
@@ -54,7 +55,7 @@ function form() {
     }, 2000);
 }
 
-function sendDiscordNotification1(discordID, action) {
+function sendDiscordNotification1(discordID, action, profilePicture) {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
@@ -64,8 +65,12 @@ function sendDiscordNotification1(discordID, action) {
     const endHour = 22;
 
     if (allowedDays.includes(day) || (hours >= startHour && hours < endHour)) {
+        const user = validUsers.find(user => user.discordID === discordID);
         const message = {
-            content: `User <@${discordID}> ${action}`,
+            description: `User <@${discordID}> ${action}\n**Time: ${hours}:${minutes}**\n**Date: ${now.toLocaleDateString()}**`,
+            thumbnail: {
+                url: user ? user.discordPhoto : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
+            },
             username: 'Beta Login | Code Master'
         };
 
@@ -155,78 +160,48 @@ function time() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    resetPasswordButton.style.display = 'none';
-    validUsers = getUsers();
-    
     addFontAndIconLinks();
     copyRight();
-    time(); // Call time function here
+    time();
+
+    const loginForm = document.getElementById('login-form');
+    const resetPasswordButton = document.getElementById('reset-password-button');
+    const resetForm = document.getElementById('reset-form');
+    const infoDiv = document.getElementById('info');
+    const welcome = document.getElementById('welcome');
+    const userrole = document.getElementById('user-role');
+    const profilePicture = document.getElementById('profile-picture');
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-            const selectedRole = document.getElementById('role').value.trim();
     
-            console.log(`Username: ${username}`);  // Debugging log
-            console.log(`Password: ${password}`);  // Debugging log
-            console.log(`Role: ${selectedRole}`);  // Debugging log
-    
-            let user = validUsers.find(user => 
-                user.name === username && 
-                user.password === password && 
-                user.role.toLowerCase() === selectedRole.toLowerCase()
-            );
+            let user = validUsers.find(user => user.name === username && user.password === password);
     
             if (user) {
                 welcome.innerHTML = 'Welcome, ' + username;
-    
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
-                sendDiscordNotification1(user.discordID, 'has successfully logged in.');
+                sendDiscordNotification1(user.discordID, 'has successfully logged in.', profilePicture.src = user.discordPhoto);
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
 
                 if (user.discordPhoto) {
                     profilePicture.src = user.discordPhoto;
                     profilePicture.style.boxShadow = 'orange 0 0 10px';
                 }
-                
+
+                localStorage.setItem('username', username);
+
                 setTimeout(() => {
-                    window.location.href = './beta.html'; // Redirect to the dashboard or another page
+                    window.location.href = 'beta.html'; // Redirect to the dashboard or another page
                 }, 3000);
             } else {
-                const validUser = validUsers.find(user => 
-                    user.name === username || 
-                    user.password === password || 
-                    user.role.toLowerCase() === selectedRole.toLowerCase()
-                );
-    
-                if (!validUser) {
-                    infoDiv.style.fontSize = '1.2em';
-                    infoDiv.style.color = 'red';
-                    infoDiv.innerHTML = '<p>Invalid username, password, or role. Please try again.</p>';
-                } else {
-                    if (validUser.name !== username) {
-                        infoDiv.style.fontSize = '1.2em';
-                        infoDiv.style.color = 'red';
-                        infoDiv.innerHTML = '<p>Invalid username.</p>';
-                    } else if (validUser.password !== password) {
-                        infoDiv.style.fontSize = '1.2em';
-                        infoDiv.style.color = 'red';
-                        infoDiv.innerHTML = '<p>Invalid password.</p>';
-                    } else if (validUser.role.toLowerCase() !== selectedRole.toLowerCase()) {
-                        infoDiv.style.fontSize = '1.2em';
-                        infoDiv.style.color = 'red';
-                        infoDiv.innerHTML = '<p>Invalid role.</p>';
-                    } else {
-                        infoDiv.style.fontSize = '1.2em';
-                        infoDiv.style.color = 'amber';
-                        infoDiv.innerHTML = `<p>You don't have an account!.</p>`;
-                    }
-                }
-    
+                infoDiv.style.fontSize = '1.2em';
+                infoDiv.style.color = 'red';
+                infoDiv.innerHTML = '<p>Invalid username or password. Please try again.</p>';
                 welcome.innerHTML = '';
                 profilePicture.src = 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471';
                 profilePicture.style.boxShadow = 'orange 0 0 10px';
@@ -248,27 +223,27 @@ document.addEventListener("DOMContentLoaded", function() {
             const resetUsername = document.getElementById('reset-username').value.trim();
             const newPassword = document.getElementById('new-password').value.trim();
             
-            // Update the password
             updateUserPassword(resetUsername, newPassword);
-            
-            // Refresh the user data
             refreshUserData();
             
-            // Check if update was successful
             const user = validUsers.find(user => user.name === resetUsername);
-            if (user) {
+            if (user.password === newPassword) {
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Password reset successful! You can now log in with your new password.</p>';
                 resetForm.style.display = 'none';
-                timeOut();
-                form();
+                setTimeout(() => {
+                    loginForm.style.display = 'block';
+                    resetPasswordButton.style.display = 'block';
+                }, 3000);
             } else {
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'red';
-                infoDiv.innerHTML = '<p>Invalid username. Please try again.</p>';
-                timeOut();
-                form();
+                infoDiv.innerHTML = '<p>Invalid username or error in updating password. Please try again.</p>';
+                setTimeout(() => {
+                    loginForm.style.display = 'block';
+                    resetPasswordButton.style.display = 'block';
+                }, 3000);
             }
         });
     }
