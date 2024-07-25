@@ -46,31 +46,52 @@
     <script>
         const footer = document.getElementById('footer');
 
-        function copyRight() {
-            const currentYear = new Date().getFullYear();
-            footer.innerHTML = (currentYear === 2024) ? "2024" : `2024 - ${currentYear}`;
-        }
+function copyRight() {
+    const currentYear = new Date().getFullYear();
+    footer.innerHTML = (currentYear === 2024) ? "2024" : `2024 - ${currentYear}`;
+}
 
-        function displayGoodbyeMessage() {
-            const username = localStorage.getItem('username');
-            const messageElement = document.getElementById('message');
+// Utility functions to get and set items in localStorage or sessionStorage
+function getStorageItem(key) {
+    if (localStorage.getItem(key)) {
+        return localStorage.getItem(key);
+    }
+    return sessionStorage.getItem(key);
+}
 
-            if (username) {
-                messageElement.textContent = `Goodbye, ${username}! See you soon!`;
-            } else {
-                messageElement.textContent = 'Goodbye! See you soon!';
-            }
-            setTimeout(function() {
-                window.location.href = 'https://www.codemaster.ltd/';
-            }, 4500);
-        }
+function setStorageItem(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        sessionStorage.setItem(key, value);
+    }
+}
 
-        // Run this function when the page loads
-        window.onload = function() {
-            displayGoodbyeMessage();
-        };
+function removeStorageItem(key) {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+}
 
-        copyRight();
+function displayGoodbyeMessage() {
+    const username = getStorageItem('username');
+    const messageElement = document.getElementById('message');
+
+    if (username) {
+        messageElement.textContent = `Goodbye, ${username}! See you soon!`;
+    } else {
+        messageElement.textContent = 'Goodbye! See you soon!';
+    }
+    setTimeout(function() {
+        window.location.href = 'https://www.codemaster.ltd/';
+    }, 4500);
+}
+
+// Run this function when the page loads
+window.onload = function() {
+    displayGoodbyeMessage();
+};
+
+copyRight();
     </script>
 </body>
 </html>

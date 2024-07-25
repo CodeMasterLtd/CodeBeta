@@ -19,8 +19,8 @@
 }
 
 .popup-content {
-    background: linear-gradient(to top, #007bff, #0E1B4D);
-    box-shadow:inset #000 0 0 20px, #007bff 0 0 2px;
+    background: linear-gradient(to top, #80007b, #0080ff);
+    box-shadow:inset #80007b 0 0 20px, #0080ff 0 0 2px;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -33,15 +33,22 @@
     right: 20px;
     font-size: 40px;
     cursor: pointer;
-    color: red;
+    color: #80007b;
     font-weight: 600;
     text-shadow: #848484 0 0 5px;
+}
+
+.close-btn:hover {
+    cursor: pointer;
+    color: #ec04e4;
+    font-weight: 600;
+    text-shadow: #0080ff 0 0 5px;
 }
 
 .popup h2 {
     font-size: 12x;
     padding: 5px;
-    color: #fff;
+    color: #80007b;
 }
 
 .popup p {
@@ -53,13 +60,13 @@
     max-width: 15%;
     height: auto;
     border-radius: 20px;
-    box-shadow: 0 0 10px #000;
+    box-shadow: #80007b 0 -10px 5px, #0080ff 0 10px 5px, #0080ff -10px 0 5px, #80007b 10px 0 5px;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
 .popup button {
-    background-color: #007bff;
+    background-color: #0080ff;
     color: #fff;
     border: none;
     padding: 10px 10px;
@@ -67,7 +74,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: inset #fff 0 0 20px, #000 0 0 2px;
+    box-shadow: inset #80007b 0 0 20px, #000 0 0 2px;
     margin-top: 20px;
     width: 150px;
     animation: fadeIn 1s linear infinite;

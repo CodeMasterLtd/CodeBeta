@@ -250,107 +250,128 @@
     <script type="module">
         import { getWebhookLogout } from './users.js';
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const logoutBtn = document.getElementById('logout-button');
-            const user = document.getElementById('user');
-            const username = localStorage.getItem('username');
-            const discordID = localStorage.getItem('discordId');
-            const profilePic = localStorage.getItem('profile-picture');
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logout-button');
+    const user = document.getElementById('user');
 
-            const now = new Date();
-            const hours = now.getHours();
+    // Utility functions to get and set items in localStorage or sessionStorage
+    function getStorageItem(key) {
+        if (localStorage.getItem(key)) {
+            return localStorage.getItem(key);
+        }
+        return sessionStorage.getItem(key);
+    }
 
-            // Store login time
-            if (!localStorage.getItem('loginTime')) {
-                localStorage.setItem('loginTime', now.toString());
-            }
+    function setStorageItem(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            sessionStorage.setItem(key, value);
+        }
+    }
 
-            if (username) {
-                if (hours >= 0 && hours < 12) {
-                    user.textContent = `Good Morning, ${username}`;
-                } else if (hours >= 12 && hours < 18) {
-                    user.textContent = `Good Afternoon, ${username}`;
-                } else if (hours >= 18 && hours < 22) {
-                    user.textContent = `Good Evening, ${username}`;
-                } else {
-                    user.textContent = `Good Night, ${username}`;
-                }
+    function removeStorageItem(key) {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+    }
+
+    const username = getStorageItem('username');
+    const discordID = getStorageItem('discordId');
+    const profilePic = getStorageItem('profile-picture');
+    const now = new Date();
+    const hours = now.getHours();
+
+    // Store login time if not already stored
+    if (!getStorageItem('loginTime')) {
+        setStorageItem('loginTime', now.toString());
+    }
+
+    if (username) {
+        if (hours >= 0 && hours < 12) {
+            user.textContent = `Good Morning, ${username}`;
+        } else if (hours >= 12 && hours < 18) {
+            user.textContent = `Good Afternoon, ${username}`;
+        } else if (hours >= 18 && hours < 22) {
+            user.textContent = `Good Evening, ${username}`;
+        } else {
+            user.textContent = `Good Night, ${username}`;
+        }
+    } else {
+        if (hours >= 0 && hours < 12) {
+            user.textContent = `Good Morning`;
+        } else if (hours >= 12 && hours < 18) {
+            user.textContent = `Good Afternoon`;
+        } else if (hours >= 18 && hours < 22) {
+            user.textContent = `Good Evening`;
+        } else {
+            user.textContent = `Good Night`;
+        }
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            const loginTime = new Date(getStorageItem('loginTime'));
+            const timeSpent = (now - loginTime) / 1000; // in seconds
+            const minutesSpent = Math.floor(timeSpent / 60);
+            const secondsSpent = Math.floor(timeSpent % 60);
+
+            let formattedTime;
+            if (timeSpent < 60) {
+                formattedTime = `${secondsSpent}s`;
             } else {
-                if (hours >= 0 && hours < 12) {
-                    user.textContent = `Good Morning`;
-                } else if (hours >= 12 && hours < 18) {
-                    user.textContent = `Good Afternoon`;
-                } else if (hours >= 18 && hours < 22) {
-                    user.textContent = `Good Evening`;
-                } else {
-                    user.textContent = `Good Night`;
-                }
+                formattedTime = `${minutesSpent}m:${secondsSpent}s`;
             }
 
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                const loginTime = new Date(localStorage.getItem('loginTime'));
-                const timeSpent = (now - loginTime) / 1000; // in seconds
-                const minutesSpent = Math.floor(timeSpent / 60);
-                const secondsSpent = Math.floor(timeSpent % 60);
+            const action = `logged out after spending **${formattedTime}** in beta shop`;
 
-                let formattedTime;
-                if (timeSpent < 60) {
-                    formattedTime = `${secondsSpent}s`;
-                } else {
-                    formattedTime = `${minutesSpent}m:${secondsSpent}s`;
-                }
+            sendDiscordNotification(action);
 
-                    const action = `logged out after spending **${formattedTime}** in beta shop`;
-
-                    sendDiscordNotification(action);
-
-                setTimeout(() => {
-                    // Clear login time
-                    localStorage.removeItem('loginTime');
-                    window.location.href = './logout.html';
-                    }, 2000);
-                });
-            }
-
-            function sendDiscordNotification(action) {
-                const now = new Date();
-                const hours24 = now.getHours();
-                const minutes = now.getMinutes();
-                const period = hours24 >= 12 ? 'PM' : 'AM';
-                const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM
-                const formattedHours = hours12.toString().padStart(2, '0');
-                const formattedMinutes = minutes.toString().padStart(2, '0');
-                const webhooks = getWebhookLogout();
-
-                const message = {
-                    title: 'Beta Logout | Code Master',
-                    embeds: [{
-                        description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
-                        thumbnail: {
-                            url: user ? profilePic : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
-                        },
-                        username: 'Beta Logout | Code Master'
-                    }]
-                };
-
-                fetch(webhooks, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(message)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Discord notification sent successfully');
-                    } else {
-                        console.error('Failed to send Discord notification:', response.status, response.statusText);
-                    }
-                })
-                .catch(error => console.error('Error sending Discord notification:', error));
-            }
+            setTimeout(() => {
+                // Clear login time
+                removeStorageItem('loginTime');
+                window.location.href = './logout.html';
+            }, 2000);
         });
+    }
+
+    function sendDiscordNotification(action) {
+        const now = new Date();
+        const hours24 = now.getHours();
+        const minutes = now.getMinutes();
+        const period = hours24 >= 12 ? 'PM' : 'AM';
+        const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM
+        const formattedHours = hours12.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        const webhooks = getWebhookLogout();
+
+        const message = {
+            title: 'Beta Logout | Code Master',
+            embeds: [{
+                description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
+                thumbnail: {
+                    url: user ? profilePic : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
+                },
+                username: 'Beta Logout | Code Master'
+            }]
+        };
+
+        fetch(webhooks, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Discord notification sent successfully');
+            } else {
+                console.error('Failed to send Discord notification:', response.status, response.statusText);
+            }
+        })
+        .catch(error => console.error('Error sending Discord notification:', error));
+    }
+});
     </script>
 </body>
 </html>

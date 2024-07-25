@@ -54,6 +54,27 @@ function form() {
     }, 2000);
 }
 
+// Utility functions to get and set items in localStorage or sessionStorage
+function getStorageItem(key) {
+    if (localStorage.getItem(key)) {
+        return localStorage.getItem(key);
+    }
+    return sessionStorage.getItem(key);
+}
+
+function setStorageItem(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        sessionStorage.setItem(key, value);
+    }
+}
+
+function removeStorageItem(key) {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+}
+
 function sendDiscordNotification1(discordID, action) {
     const now = new Date();
     const hours24 = now.getHours();
@@ -158,28 +179,29 @@ function time() {
         infoDiv.innerHTML = '<p>Good Night</p>';
     }
 
-    if (hours === 0 && minutes === 0 && seconds === 0 || hours === 12 && minutes === 0 && seconds === 0) {
-        if (BugNotify === true) {
-            sendBugNotification("Services Unavailable",  "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/down.png?raw=true");
-        } else if (BugNotify === false) {
-            sendBugNotification("Services Online",  "Everything seems normal here.", 65280, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/online.png?raw=true");
+    if ((hours === 0 && minutes === 0 && seconds === 0) || (hours === 12 && minutes === 0 && seconds === 0)) {
+        if (BugNotify) {
+            sendBugNotification("Services Unavailable", "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/down.png?raw=true");
+        } else {
+            sendBugNotification("Services Online", "Everything seems normal here.", 65280, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/online.png?raw=true");
         }
     }
 }
 
+time();
+addFontAndIconLinks();
+
 document.addEventListener("DOMContentLoaded", function() {
-    addFontAndIconLinks();
     copyRight();
-    time();
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-    
+
             let user = validUsers.find(user => user.name === username && user.password === password);
-    
+
             if (user) {
                 welcome.innerHTML = 'Welcome, ' + username;
                 infoDiv.style.fontSize = '1.2em';
@@ -193,9 +215,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     profilePicture.style.boxShadow = 'orange 0 0 10px';
                 }
 
-                localStorage.setItem('username', username);
-                localStorage.setItem('discordId', user.discordID);
-                localStorage.setItem('profile-picture', user.discordPhoto);
+                setStorageItem('username', username);
+                setStorageItem('discordId', user.discordID);
+                setStorageItem('profile-picture', user.discordPhoto);
 
                 setTimeout(() => {
                     window.location.href = 'beta.html'; // Redirect to the dashboard or another page
@@ -209,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 profilePicture.style.boxShadow = 'orange 0 0 10px';
             }
         });
-    }    
+    }
 
     if (resetPasswordButton) {
         resetPasswordButton.addEventListener('click', function() {
@@ -224,10 +246,10 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault();
             const resetUsername = document.getElementById('reset-username').value.trim();
             const newPassword = document.getElementById('new-password').value.trim();
-            
+
             updateUserPassword(resetUsername, newPassword);
             refreshUserData();
-            
+
             const user = validUsers.find(user => user.name === resetUsername);
             if (user.password === newPassword) {
                 infoDiv.style.fontSize = '1.2em';
