@@ -5,7 +5,8 @@ const resetForm = document.getElementById('reset-form');
 const resetPasswordButton = document.getElementById('reset-password-button');
 const infoDiv = document.getElementById('info');
 const footer = document.getElementById('footer');
-
+const userrole = document.getElementById('user-role');
+const profilePicture = document.getElementById('profile-picture');
 
 resetPasswordButton.style.display = 'none';
 let validUsers = getUsers();
@@ -53,23 +54,32 @@ function form() {
     }, 2000);
 }
 
-function sendDiscordNotification1(discordID, action, profilePicture) {
+function sendDiscordNotification1(discordID, action) {
     const now = new Date();
-    const hours = now.getHours();
+    const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const day = now.getDay();
     const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday
-    const startHour = 9;
+    const startHour = 8;
     const endHour = 22;
 
-    if (allowedDays.includes(day) || (hours >= startHour && hours < endHour)) {
+    // Convert to 12-hour format and determine AM/PM
+    const period = hours24 >= 12 ? 'PM' : 'AM';
+    const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM
+    const formattedHours = hours12.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+
+    if (allowedDays.includes(day) || (hours24 >= startHour && hours24 < endHour)) {
         const user = validUsers.find(user => user.discordID === discordID);
         const message = {
-            description: `User <@${discordID}> ${action}\n**Time: ${hours}:${minutes}**\n**Date: ${now.toLocaleDateString()}**`,
-            thumbnail: {
-                url: user ? user.discordPhoto : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
-            },
-            username: 'Beta Login | Code Master'
+            title: 'Beta Login | Code Master',
+            embeds: [{
+                description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
+                thumbnail: {
+                    url: user ? user.discordPhoto : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
+                },
+                username: 'Beta Login | Code Master'
+            }]
         };
 
         fetch(webhook, {
@@ -148,9 +158,9 @@ function time() {
         infoDiv.innerHTML = '<p>Good Night</p>';
     }
 
-    if (hours === 0 && minutes === 0 && seconds === 0) {
+    if (hours === 0 && minutes === 0 && seconds === 0 || hours === 12 && minutes === 0 && seconds === 0) {
         if (BugNotify === true) {
-            sendBugNotification("Services Unavailable",  "We are currently experiencing issues with our services. Please try again later.", 16753920, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/down.png?raw=true");
+            sendBugNotification("Services Unavailable",  "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/down.png?raw=true");
         } else if (BugNotify === false) {
             sendBugNotification("Services Online",  "Everything seems normal here.", 65280, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/online.png?raw=true");
         }
@@ -161,14 +171,6 @@ document.addEventListener("DOMContentLoaded", function() {
     addFontAndIconLinks();
     copyRight();
     time();
-
-    const loginForm = document.getElementById('login-form');
-    const resetPasswordButton = document.getElementById('reset-password-button');
-    const resetForm = document.getElementById('reset-form');
-    const infoDiv = document.getElementById('info');
-    const welcome = document.getElementById('welcome');
-    const userrole = document.getElementById('user-role');
-    const profilePicture = document.getElementById('profile-picture');
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
@@ -183,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
-                sendDiscordNotification1(user.discordID, 'has successfully logged in.', profilePicture.src = user.discordPhoto);
+                sendDiscordNotification1(user.discordID, 'has successfully logged in.');
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
 
                 if (user.discordPhoto) {
@@ -192,6 +194,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
                 localStorage.setItem('username', username);
+                localStorage.setItem('discordId', user.discordID);
+                localStorage.setItem('profile-picture', user.discordPhoto);
 
                 setTimeout(() => {
                     window.location.href = 'beta.html'; // Redirect to the dashboard or another page
