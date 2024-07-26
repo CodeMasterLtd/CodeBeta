@@ -163,15 +163,17 @@
             top: 10px;
             right: 10px;
             padding: 10px 20px;
-            background-color: #ff4c4c;
+            background-color: #ffffff00;
             color: #fff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 15px;
         }
 
         .logout-button:hover {
-            background-color: #d43f3f;
+
+            font-weight: 600;
         }
 
         #user {
@@ -194,6 +196,18 @@
             h1 {
                 font-size: 30px;
             }
+        }
+
+        .legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .legal-links a {
+            color: #fff;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -246,9 +260,12 @@
 
     <footer>
         &copy; 2024 Code Master. All rights reserved.
+        <div class="legal-links">
+            <a href="terms.html">Terms of Service</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
     </footer>
     <script type="module">
-        import { getWebhookLogout } from './users.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logout-button');
@@ -310,66 +327,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            const loginTime = new Date(getStorageItem('loginTime'));
-            const timeSpent = (now - loginTime) / 1000; // in seconds
-            const minutesSpent = Math.floor(timeSpent / 60);
-            const secondsSpent = Math.floor(timeSpent % 60);
-
-            let formattedTime;
-            if (timeSpent < 60) {
-                formattedTime = `${secondsSpent}s`;
-            } else {
-                formattedTime = `${minutesSpent}m:${secondsSpent}s`;
-            }
-
-            const action = `logged out after spending **${formattedTime}** in beta shop`;
-
-            sendDiscordNotification(action);
 
             setTimeout(() => {
-                // Clear login time
-                removeStorageItem('loginTime');
                 window.location.href = './logout.html';
             }, 2000);
         });
-    }
-
-    function sendDiscordNotification(action) {
-        const now = new Date();
-        const hours24 = now.getHours();
-        const minutes = now.getMinutes();
-        const period = hours24 >= 12 ? 'PM' : 'AM';
-        const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM
-        const formattedHours = hours12.toString().padStart(2, '0');
-        const formattedMinutes = minutes.toString().padStart(2, '0');
-        const webhooks = getWebhookLogout();
-
-        const message = {
-            title: 'Beta Logout | Code Master',
-            embeds: [{
-                description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
-                thumbnail: {
-                    url: user ? profilePic : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
-                },
-                username: 'Beta Logout | Code Master'
-            }]
-        };
-
-        fetch(webhooks, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Discord notification sent successfully');
-            } else {
-                console.error('Failed to send Discord notification:', response.status, response.statusText);
-            }
-        })
-        .catch(error => console.error('Error sending Discord notification:', error));
     }
 });
     </script>

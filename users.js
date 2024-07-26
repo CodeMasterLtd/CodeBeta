@@ -1,7 +1,12 @@
-export const bug = '1236105830051483759';
-export const webhook = 'https://discord.com/api/webhooks/1264315006854496288/JZz_aHj85UAm5aipAPkbV2eWtNj4IddhhwQ1SKNF5AcIPbpStWTa4BH1SSG_eUFmyZCD';
-export const webhookBug = 'https://discord.com/api/webhooks/1264374034481807380/LPro6kkYJdvwM_rBTjhNRYqrvhKDLxFgw95zuhcdP2CzX8tUtmKXYhCIUmhO7BDcJa26';
-export const webhookLogout = 'https://discord.com/api/webhooks/1266026648248127591/9qDVBSzW7LhTlVXfODLqCU2w-szbfDlEo_DpibVQI5-N5_KcbuAW-ttidn3r2HqjcjAt';
+const initialTest = [
+    {
+        "discordID": "1258565691796099072", // Test
+        "name": "CodeMaster",
+        "password": "CodeMasterTest",
+        "role": "None",
+        "discordPhoto": 'img/logoMain2.png'
+    }
+];
 
 const initialAdmins = [
     {
@@ -41,7 +46,7 @@ const initialBeta = [
 ];
 
 function getInitialUsers() {
-    return [...initialAdmins, ...initialStaff, ...initialBeta];
+    return [...initialTest, ...initialAdmins, ...initialStaff, ...initialBeta];
 }
 
 export function getUsers() {
@@ -53,22 +58,6 @@ export function getUsers() {
         saveUsers(initialUsers);
         return initialUsers;
     }
-}
-
-export function getWebhook() {
-    return webhook;
-}
-
-export function getWebhookBug() {
-    return webhookBug;
-}
-
-export function getWebhookLogout() {
-    return webhookLogout;
-}
-
-export function bugError() {
-    return bug;
 }
 
 export function saveUsers(users) {

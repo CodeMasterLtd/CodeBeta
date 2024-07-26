@@ -1,4 +1,5 @@
-import { getUsers, getWebhook, updateUserPassword, bugError, getWebhookBug } from './users.js';
+import { getUsers, updateUserPassword } from './users.js';
+import { getWebhook, bugError, getWebhookBug } from './config.js';
 
 const loginForm = document.getElementById('login-form');
 const resetForm = document.getElementById('reset-form');
@@ -39,7 +40,7 @@ function timeOut() {
         infoDiv.style.fontSize = '14px';
         infoDiv.style.color = 'white';
         infoDiv.innerHTML = `
-            <p>Welcome to Code Master Beta.</p>
+            <p>Code Master Beta.</p>
             <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
         `;
     }, 2000);
@@ -97,7 +98,7 @@ function sendDiscordNotification1(discordID, action) {
             embeds: [{
                 description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
                 thumbnail: {
-                    url: user ? user.discordPhoto : 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471' // Default image if user not found
+                    url: user ? user.discordPhoto : 'img/logoMain2.png' // Default image if user not found
                 },
                 username: 'Beta Login | Code Master'
             }]
@@ -181,9 +182,9 @@ function time() {
 
     if ((hours === 0 && minutes === 0 && seconds === 0) || (hours === 12 && minutes === 0 && seconds === 0)) {
         if (BugNotify) {
-            sendBugNotification("Services Unavailable", "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/down.png?raw=true");
+            sendBugNotification("Services Unavailable", "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "img/down.png");
         } else {
-            sendBugNotification("Services Online", "Everything seems normal here.", 65280, "https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/online.png?raw=true");
+            sendBugNotification("Services Online", "Everything seems normal here.", 65280, "img/online.png");
         }
     }
 }
@@ -203,31 +204,24 @@ document.addEventListener("DOMContentLoaded", function() {
             let user = validUsers.find(user => user.name === username && user.password === password);
 
             if (user) {
-                welcome.innerHTML = 'Welcome, ' + username;
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
                 sendDiscordNotification1(user.discordID, 'has successfully logged in.');
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
 
-                if (user.discordPhoto) {
-                    profilePicture.src = user.discordPhoto;
-                    profilePicture.style.boxShadow = 'orange 0 0 10px';
-                }
-
                 setStorageItem('username', username);
                 setStorageItem('discordId', user.discordID);
                 setStorageItem('profile-picture', user.discordPhoto);
 
                 setTimeout(() => {
-                    window.location.href = 'beta.html'; // Redirect to the dashboard or another page
-                }, 3000);
+                    window.location.href = 'login.html'; // Redirect to the dashboard or another page
+                }, 2000);
             } else {
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'red';
                 infoDiv.innerHTML = '<p>Invalid username or password. Please try again.</p>';
-                welcome.innerHTML = '';
-                profilePicture.src = 'https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471';
+                profilePicture.src = 'img/logoMain2.png';
                 profilePicture.style.boxShadow = 'orange 0 0 10px';
             }
         });

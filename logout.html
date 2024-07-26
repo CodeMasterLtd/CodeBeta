@@ -32,7 +32,7 @@
     <div class="login-container">
         <div class="beta-banner">BETA</div>
         <div class="beta-badge">
-            <img id="profile-picture" src="https://www.codemaster.ltd/cdn/shop/files/codemaster_1.jpg?v=1719057471" alt="Default Profile Picture">
+            <img id="profile-picture" src='img/logoMain2.png' alt="Default Profile Picture">
         </div>
     <div class="message" id="message">Goodbye, Username! See you soon!</div>
     <div id="info" class="info">
@@ -73,17 +73,27 @@ function removeStorageItem(key) {
 }
 
 function displayGoodbyeMessage() {
+    const profilePictureUrl = getStorageItem('profile-picture') || 'img/logoMain2.png';
+    const profilePictureElement = document.getElementById('profile-picture');
     const username = getStorageItem('username');
     const messageElement = document.getElementById('message');
+    const allowWeb = false;
+    const website = 'https://www.codemaster.ltd/'
+    const discord = 'https://discord.gg/XcEHvPR9qA'
 
     if (username) {
-        messageElement.textContent = `Goodbye, ${username}! See you soon!`;
+        messageElement.textContent = `Goodbye, ${username}!`;
     } else {
-        messageElement.textContent = 'Goodbye! See you soon!';
+        messageElement.textContent = 'Goodbye!';
     }
+    profilePictureElement.src = profilePictureUrl;
     setTimeout(function() {
-        window.location.href = 'https://www.codemaster.ltd/';
-    }, 4500);
+        messageElement.textContent = 'See you soon!';
+        profilePictureElement.src = 'img/logoMain2.png';
+    }, 3000);
+    setTimeout(function() {
+        window.location.href = allowWeb ? website : 'index.html' || discord;
+    }, 6000);
 }
 
 // Run this function when the page loads

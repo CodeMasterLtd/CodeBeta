@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0; 
+    background-color: #00000000;
 }
 
 .popup {
@@ -19,8 +20,8 @@
 }
 
 .popup-content {
-    background: linear-gradient(to top, #80007b, #0080ff);
-    box-shadow:inset #80007b 0 0 20px, #0080ff 0 0 2px;
+    background: linear-gradient(to top, #329eff, #0E1B4D);
+    box-shadow:inset #000 0 0 20px, #329eff 0 0 2px;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -33,22 +34,22 @@
     right: 20px;
     font-size: 40px;
     cursor: pointer;
-    color: #80007b;
+    color: #ae0303;
     font-weight: 600;
     text-shadow: #848484 0 0 5px;
 }
 
 .close-btn:hover {
     cursor: pointer;
-    color: #ec04e4;
+    color: #ec0404;
     font-weight: 600;
-    text-shadow: #0080ff 0 0 5px;
+    text-shadow: #275be7 0 0 5px;
 }
 
 .popup h2 {
     font-size: 12x;
     padding: 5px;
-    color: #80007b;
+    color: #ffffff;
 }
 
 .popup p {
@@ -60,13 +61,13 @@
     max-width: 15%;
     height: auto;
     border-radius: 20px;
-    box-shadow: #80007b 0 -10px 5px, #0080ff 0 10px 5px, #0080ff -10px 0 5px, #80007b 10px 0 5px;
+    box-shadow: #000 0 0 10px;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
 .popup button {
-    background-color: #0080ff;
+    background-color: #275be7;
     color: #fff;
     border: none;
     padding: 10px 10px;
@@ -74,7 +75,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: inset #80007b 0 0 20px, #000 0 0 2px;
+    box-shadow: inset #275be7 0 0 20px, #000 0 0 2px;
     margin-top: 20px;
     width: 150px;
     animation: fadeIn 1s linear infinite;
@@ -82,7 +83,10 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000000;
+    background-image: url('img/background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,9 +96,8 @@ body {
 }
 
 .beta-badge img {
-    border-radius: 50px;
-    box-shadow: 0 0 20px #007bff;
-    width: 100px;
+    border-radius: 100px;
+    width: 130px;
 }
 
 .login-container {
@@ -104,8 +107,8 @@ body {
     max-width: 400px;
     width: 100%;
     text-align: center;
-    background: linear-gradient(to top, #007bff, #0E1B4D);
-    box-shadow:inset #000 0 0 20px, #007bff 0 0 2px;
+    background: linear-gradient(to top, #329eff, #275be7);
+    box-shadow:inset #000 0 0 20px, #329eff 0 0 2px;
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -121,13 +124,13 @@ select {
     box-sizing: border-box;
     font-size: 13px;
     background-color: #040404;
-    color: #007bff;
+    color: #329eff;
     border: red 1px solid;
     font-weight: 600;
 }
 
 option {
-    background-color: #007bff;
+    background-color: #329eff;
     color: #0c0b0b;
     font-size: 13px;
     font-weight: bold;
@@ -158,7 +161,7 @@ input {
     width: calc(100% - 20px);
     padding: 12px;
     margin: 10px 0;
-    border: 1px solid #007bff;
+    border: 1px solid #329eff;
     border-radius: 50px;
     box-sizing: border-box;
     font-size: 16px;
@@ -167,7 +170,7 @@ input {
 }
 
 button {
-    background-color: #007bff;
+    background-color: #329eff;
     color: #090808;
     border: none;
     padding: 5px;
@@ -198,7 +201,7 @@ button:hover {
     margin-top: 20px;
     color: #dfdfdf;
     font-size: 14px;
-    box-shadow:inset #007bff 0 0 20px, inset #000 0 0 40px;
+    box-shadow:inset #329eff 0 0 20px, inset #000 0 0 40px;
     border-radius: 10px;
     padding: 10px;
     background-color: #050505;
@@ -242,9 +245,9 @@ footer {
     padding: 5px;
     text-align: center;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    box-shadow:inset #ff0000 0 0 20px, #007bff 0 0 2px, inset #000 0 0 40px;
+    box-shadow:inset #ff0000 0 0 20px, #329eff 0 0 2px, inset #000 0 0 40px;
     margin-bottom: -8px;
     border-radius: 20px;
     margin-left: 25px;

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="img/logo.png">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <title>Beta Welcome | Code Master</title>
+    <style>
+        .mainBody {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #03084F;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.3s;
+            background-color: #F30078;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.6s;
+            background-color: #03084F;
+        }
+
+        .dot:nth-child(4) {
+            animation-delay: 0.9s;
+            background-color: #F30078;
+        }
+
+        @keyframes blink {
+            0%, 20%, 100% {
+                opacity: 0.2;
+                transform: scale(1);
+                margin-left: 0;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="beta-banner">BETA</div>
+        <div class="beta-badge">
+            <img id="profile-picture" src="img/logoMain2.png" alt="Default Profile Picture">
+        </div>
+        <div class="message" id="message">Welcome, Username! We're glad to have you back!</div>
+        <div class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div id="info" class="info">
+            <p>Thank you for using Code Master Beta.</p>
+            <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+        </div>
+        <footer>
+            © <span id="footer"></span> <a href="https://www.codemaster.ltd">Code Master</a> All rights reserved.
+        </footer>
+    </div>
+    <script>
+        const footer = document.getElementById('footer');
+        const discordUrl = 'index.html'
+
+        function copyRight() {
+            const currentYear = new Date().getFullYear();
+            footer.innerHTML = (currentYear === 2024) ? "2024" : `2024 - ${currentYear}`;
+        }
+
+        // Utility functions to get and set items in localStorage and sessionStorage
+        function getStorageItem(key) {
+            if (localStorage.getItem(key)) {
+                return localStorage.getItem(key);
+            }
+            return sessionStorage.getItem(key);
+        }
+
+        function setStorageItem(key, value) {
+            try {
+                localStorage.setItem(key, value);
+                sessionStorage.setItem(key, value);
+            } catch (e) {
+                sessionStorage.setItem(key, value);
+            }
+        }
+
+        function removeStorageItem(key) {
+            localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
+        }
+
+        function loadDefaultPage() {
+            setTimeout(() => {
+                    window.location.href = discordUrl; // Redirect to the dashboard or another page
+                }, 10000);
+        }
+
+        function loadPage() {
+            setTimeout(() => {
+                    window.location.href = 'beta.html'; // Redirect to the dashboard or another page
+                }, 10000);
+        }
+
+        function displayMessage() {
+            const username = getStorageItem('username');
+            const profilePictureUrl = 'img/logoMain2.png';
+            const messageElement = document.getElementById('message');
+            const profilePictureElement = document.getElementById('profile-picture');
+
+            if (username) {
+                messageElement.textContent = `Loading Login Details! Please Wait`;
+                loadPage();
+            } else {
+                messageElement.textContent = 'No Login Details Found';
+                loadDefaultPage();
+            }
+
+            profilePictureElement.src = profilePictureUrl;
+        }        
+
+        function displayWelcomeMessage() {
+            const username = getStorageItem('username');
+            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logoMain2.png';
+            const messageElement = document.getElementById('message');
+            const profilePictureElement = document.getElementById('profile-picture');
+
+            if (username) {
+                messageElement.textContent = `Welcome, ${username}! We're glad to have you back!`;
+                loadPage();
+            } else {
+                window.location.href = discordUrl;
+            }
+
+            profilePictureElement.src = profilePictureUrl;
+        }
+
+        // Run this function when the page loads
+        window.onload = function() {
+            displayMessage();
+            setTimeout(() => {
+                displayWelcomeMessage();
+                }, 5000);
+        };
+
+        copyRight();
+    </script>
+</body>
+</html>
