@@ -20,7 +20,7 @@ function addFontAndIconLinks() {
     const head = document.head;
     const iconLink = document.createElement('link');
     iconLink.type = 'image/png';
-    iconLink.rel = 'icon';
+    iconLink.rel = 'icon' && 'apple-touch-icon' && 'shortcut icon';
     iconLink.href = 'img/logo.png';
     iconLink.sizes = '180x180'; // Prefer single size; others can be added if needed
     head.appendChild(iconLink);
