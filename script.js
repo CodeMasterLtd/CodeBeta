@@ -183,14 +183,15 @@ time();
 
 document.addEventListener("DOMContentLoaded", function() {
     copyRight();
+    refreshUserData();
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+            const password = document.getElementById('password').value.trim().toLowerCase(); // Convert to lowercase
 
-            let user = validUsers.find(user => user.name === username && user.password === password);
+            let user = validUsers.find(user => user.name === username && user.password.toLowerCase() === password); // Convert stored password to lowercase for comparison
 
             if (user) {
                 infoDiv.style.fontSize = '1.2em';
@@ -228,13 +229,13 @@ document.addEventListener("DOMContentLoaded", function() {
         resetForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const resetUsername = document.getElementById('reset-username').value.trim();
-            const newPassword = document.getElementById('new-password').value.trim();
+            const newPassword = document.getElementById('new-password').value.trim().toLowerCase(); // Convert to lowercase
 
             updateUserPassword(resetUsername, newPassword);
             refreshUserData();
 
             const user = validUsers.find(user => user.name === resetUsername);
-            if (user.password === newPassword) {
+            if (user && user.password.toLowerCase() === newPassword) { // Convert stored password to lowercase for comparison
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Password reset successful! You can now log in with your new password.</p>';

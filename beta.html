@@ -36,6 +36,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #000;
+            margin-bottom: 70px;
         }
 
         .section {
@@ -115,6 +116,7 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+            margin-top: 20px;
         }
 
         .line {
@@ -138,26 +140,6 @@
             margin-top: -20px;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            header {
-                padding: 15px;
-                font-size: 13px;
-            }
-
-            .container {
-                width: 90%;
-            }
-
-            .feature {
-                flex: 1 1 calc(50% - 20px);
-            }
-
-            header img {
-                width: 70px;
-            }
-        }
-
         /* Logout button */
         .logout-button {
             position: absolute;
@@ -173,7 +155,6 @@
         }
 
         .logout-button:hover {
-
             font-weight: 600;
         }
 
@@ -197,6 +178,22 @@
             h1 {
                 font-size: 30px;
             }
+            header {
+                padding: 15px;
+                font-size: 13px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .feature {
+                flex: 1 1 calc(50% - 20px);
+            }
+
+            header img {
+                width: 70px;
+            }
         }
 
         .legal-links {
@@ -204,11 +201,13 @@
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
+            text-align: center;
         }
 
         .legal-links a {
             color: #fff;
             text-decoration: none;
+            text-align: center;
         }
     </style>
 </head>

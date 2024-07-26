@@ -1,14 +1,11 @@
-const initialTest = [
+const initialAdmins = [
     {
         "discordID": "1258565691796099072", // Test
         "name": "CodeMaster",
         "password": "CodeMasterTest",
-        "role": "None",
-        "discordPhoto": 'img/logoMain2.png'
-    }
-];
-
-const initialAdmins = [
+        "role": "Admin",
+        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logoMain2.png?raw=true'
+    },
     {
         "discordID": "1030462659092545546", // CEO
         "name": "Kieran",
@@ -46,7 +43,7 @@ const initialBeta = [
 ];
 
 function getInitialUsers() {
-    return [...initialTest, ...initialAdmins, ...initialStaff, ...initialBeta];
+    return [...initialAdmins, ...initialStaff, ...initialBeta];
 }
 
 export function getUsers() {
