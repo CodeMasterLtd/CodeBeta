@@ -1,17 +1,17 @@
 const initialAdmins = [
     {
-        "discordID": "1258565691796099072", // Test
-        "name": "CodeMaster",
-        "password": "CodeMasterTest",
-        "role": "Admin",
-        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logoMain2.png?raw=true'
-    },
-    {
         "discordID": "1030462659092545546", // CEO
         "name": "Kieran",
         "password": "Caitlin",
         "role": "Admin",
         "discordPhoto": 'https://cdn.discordapp.com/avatars/1030462659092545546/600bd29a4928ee579815a44e2fd17515.png?size=1024'
+    },
+    {
+        "discordID": "1258565691796099072", // Test
+        "name": "CodeMaster",
+        "password": "CodeMasterTest",
+        "role": "CEO",
+        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logo2.png?raw=true'
     },
     {
         "discordID": "794738803600261120", // COO

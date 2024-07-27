@@ -76,7 +76,7 @@
     <div class="login-container">
         <div class="beta-banner">BETA</div>
         <div class="beta-badge">
-            <img id="profile-picture" src="img/logoMain2.png" alt="Default Profile Picture">
+            <img id="profile-picture" src="img/logo2.png" alt="Default Profile Picture">
         </div>
         <div class="message" id="message">Welcome, Username! We're glad to have you back!</div>
         <div class="loading-dots">
@@ -138,7 +138,7 @@
 
         function displayMessage() {
             const username = getStorageItem('username');
-            const profilePictureUrl = 'img/logoMain2.png';
+            const profilePictureUrl = 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
@@ -155,7 +155,7 @@
 
         function displayWelcomeMessage() {
             const username = getStorageItem('username');
-            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logoMain2.png';
+            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
