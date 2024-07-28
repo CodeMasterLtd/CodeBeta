@@ -14,7 +14,6 @@ let validUsers = getUsers();
 const webhook = getWebhook();
 const bugerror = bugError();
 const bugwebhook = getWebhookBug();
-const BugNotify = true;
 
 function copyRight() {
     const currentYear = new Date().getFullYear();
@@ -68,10 +67,11 @@ function removeStorageItem(key) {
 
 function sendDiscordNotification1(discordID, action) {
     const now = new Date();
+    const timeNow = now.getHours();
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const day = now.getDay();
-    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday
+    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday, Monday
     const startHour = 8;
     const endHour = 22;
 
@@ -81,8 +81,14 @@ function sendDiscordNotification1(discordID, action) {
     const formattedHours = hours12.toString().padStart(2, '0');
     const formattedMinutes = minutes.toString().padStart(2, '0');
 
-    if (allowedDays.includes(day) || (hours24 >= startHour && hours24 < endHour)) {
+    // Log the current day and time
+    console.log(`Current day: ${day}, hours: ${hours24}, minutes: ${formattedMinutes}`);
+
+    // Check if the current time is within the allowed days and hours
+    if (allowedDays.includes(day) || (timeNow >= startHour && timeNow < endHour)) {
         const user = validUsers.find(user => user.discordID === discordID);
+        console.log(`User found: ${user ? 'yes' : 'no'}`);
+
         const message = {
             title: 'Beta Login | Code Master',
             embeds: [{
@@ -110,51 +116,58 @@ function sendDiscordNotification1(discordID, action) {
         })
         .catch(error => console.error('Error sending Discord notification:', error));
     } else {
-        console.log('Notification not sent: Outside allowed time window.');
+        console.log('Notification not sent: Outside allowed time window or not an allowed day.');
     }
 }
 
-function sendBugNotification(title, description, color, image) {
-    const embed = {
-        content: `<@&${bugerror}>`,
-        embeds: [
-            {
-                title: title,
-                description: description,
-                color: color, // Orange color in decimal (0xFFA500)
-                image: {
-                    url: image
-                },
-                footer: {
-                    text: "Code Master Beta"
-                }
-            }
-        ],
-        username: 'Beta Alerts | Code Master'
-    };
+function sendBugNotification(title, description, image) {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
-    fetch(bugwebhook, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(embed)
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Bug notification sent successfully');
-        } else {
-            console.error('Failed to send bug notification:', response.status, response.statusText);
-        }
-    })
-    .catch(error => console.error('Error sending bug notification:', error));
+
+    // Check if the current time is within the allowed days and hours
+    if (hours === 0 && minutes === 0 && seconds === 0) {
+        const embed = {
+            content: `<@&${bugerror}>`,
+            embeds: [
+                {
+                    title: title,
+                    description: description,
+                    image: {
+                        url: image
+                    },
+                    footer: {
+                        text: "Code Master Beta"
+                    },
+                username: 'Beta Login | Code Master'
+            }]
+        };
+
+        fetch(bugwebhook, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(embed)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Discord notification sent successfully');
+            } else {
+                console.error('Failed to send Discord notification:', response.status, response.statusText);
+            }
+        })
+        .catch(error => console.error('Error sending Discord notification:', error));
+    } else {
+        console.log('Notification not sent: Outside allowed time window or not an allowed day.');
+    }
 }
 
 function time() {
     const now = new Date();
     const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
 
     if (hours >= 0 && hours < 12) {
         setTimeout(timeOut, 5000);
@@ -169,21 +182,45 @@ function time() {
         setTimeout(timeOut, 5000);
         infoDiv.innerHTML = '<p>Good Night</p>';
     }
-
-    if ((hours === 0 && minutes === 0 && seconds === 0) || (hours === 12 && minutes === 0 && seconds === 0)) {
-        if (BugNotify) {
-            sendBugNotification("Services Unavailable", "We are currently experiencing issues with our services. Some things may or may not work.", 16753920, "img/down.png");
-        } else {
-            sendBugNotification("Services Online", "Everything seems normal here.", 65280, "img/online.png");
-        }
-    }
 }
-
-time();
 
 document.addEventListener("DOMContentLoaded", function() {
     copyRight();
     refreshUserData();
+
+    const day = new Date().getDay();
+    const body = document.body;
+    if (body) {
+        switch(day) {
+            case 0: // Sunday
+                body.style.backgroundImage = "url('img/background/codeMaster.jpg')";
+                break;
+            case 1: // Monday
+                body.style.backgroundImage = "url('img/background/raysShine.jpg')";
+                break;
+            case 2: // Tuesday
+            body.style.backgroundImage = "url('img/background/earthPlanet.jpg')";
+                break;
+            case 3: // Wednesday
+            body.style.backgroundImage = "url('img/background/rainbowWaves.jpg')";
+                break;
+            case 4: // Thursday
+            body.style.backgroundImage = "url('img/background/neonLights.jpg')";
+                break;
+            case 5: // Friday
+            body.style.backgroundImage = "url('img/background/neonLights2.jpg')";
+                break;
+            case 6: // Saturday
+            body.style.backgroundImage = "url('img/background/neonLights3.jpg')";
+                break;
+            default:
+                body.style.backgroundImage = "url('img/background/codeMaster.jpg')";
+        }
+        body.style.backgroundSize = "cover";
+        body.style.backgroundRepeat = "no-repeat";
+        body.style.backgroundPosition = "center";
+        body.style.backgroundAttachment = "fixed";
+    }
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
@@ -255,4 +292,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    time();
+    sendBugNotification("Services Available", "Our Services are currently available.", "img/error/online.png");
 });

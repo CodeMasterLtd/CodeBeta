@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="img/logo.png">
-    <link rel="icon" href="img/logo.png" type="image/png">
-    <link rel="shortcut icon" href="img/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/logo2.png">
+    <link rel="icon" href="img/logo2.png" type="image/png">
+    <link rel="shortcut icon" href="img/logo2.png" type="image/png">
     <title>Beta Login | Code Master</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,14 +21,16 @@
     </div>
     <div class="login-container">
         <div id="user-role"></div>
-        <div class="beta-banner">BETA</div>
     <div class="beta-badge">
-        <img id="profile-picture" src="img/logoMain2.png" alt="Default Profile Picture">
+        <img id="profile-picture" src="img/logo2.png" alt="Default Profile Picture">
     </div>
         <h1 id="welcome"></h1>
         <form id="login-form" style="display: block;">
             <input type="text" id="username" placeholder="Username *" required>
-            <input type="password" id="password" placeholder="Password *" required>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password *" required>
+                <span class="toggle-password" id="toggle-password">&#128065;</span> <!-- Eye icon -->
+            </div>
             <button type="submit">Log In</button>
             <br></br>
         </form>
