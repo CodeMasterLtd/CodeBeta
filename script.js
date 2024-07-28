@@ -71,7 +71,7 @@ function sendDiscordNotification1(discordID, action) {
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const day = now.getDay();
-    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday, Monday
+    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday
     const startHour = 8;
     const endHour = 22;
 
@@ -194,11 +194,11 @@ document.addEventListener("DOMContentLoaded", function() {
     togglePassword.addEventListener('click', function() {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePassword.textContent = '🙈'; // Change icon to indicate visibility
+            togglePassword.textContent = '🔒'; // Change icon to indicate visibility
             togglePassword.title = 'Hide password';
         } else {
             passwordField.type = 'password';
-            togglePassword.textContent = '👁️'; // Change icon to indicate hidden
+            togglePassword.textContent = '🔓'; // Change icon to indicate hidden
             togglePassword.title = 'Show password';
         }
     });
@@ -264,7 +264,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 infoDiv.style.color = 'red';
                 infoDiv.innerHTML = '<p>Invalid username or password. Please try again.</p>';
                 profilePicture.src = 'img/logoMain2.png';
-                profilePicture.style.boxShadow = 'orange 0 0 10px';
             }
         });
     }

@@ -26,10 +26,10 @@
     </div>
         <h1 id="welcome"></h1>
         <form id="login-form" style="display: block;">
-            <input type="text" id="username" placeholder="Username *" required>
+            <input type="text" id="username" placeholder="Username *" name="identifier" required="true" tabindex="-1" spellcheck="false" autocomplete="current-password" autocapitalize="none">
             <div class="password-container">
-                <input type="password" id="password" placeholder="Password *" required>
-                <span class="toggle-password" id="toggle-password">&#128065;</span> <!-- Eye icon -->
+                <input type="password" id="password" placeholder="Password *" name="password" required="true" tabindex="1" spellcheck="false" autofocus autocomplete="off" autocapitalize="none">
+                <span class="toggle-password" id="toggle-password" title="Show Password">🔓</span> <!-- Eye icon -->
             </div>
             <button type="submit">Log In</button>
             <br></br>
