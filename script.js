@@ -188,6 +188,21 @@ document.addEventListener("DOMContentLoaded", function() {
     copyRight();
     refreshUserData();
 
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function() {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePassword.textContent = '🙈'; // Change icon to indicate visibility
+            togglePassword.title = 'Hide password';
+        } else {
+            passwordField.type = 'password';
+            togglePassword.textContent = '👁️'; // Change icon to indicate hidden
+            togglePassword.title = 'Show password';
+        }
+    });
+
     const day = new Date().getDay();
     const body = document.body;
     if (body) {
