@@ -77,13 +77,14 @@ function displayGoodbyeMessage() {
     const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
     const profilePictureElement = document.getElementById('profile-picture');
     const username = getStorageItem('username');
+    const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
     const messageElement = document.getElementById('message');
     const allowWeb = false;
     const website = 'https://www.codemaster.ltd/'
     const discord = 'https://discord.gg/XcEHvPR9qA'
 
-    if (username) {
-        messageElement.textContent = `Goodbye, ${username}!`;
+    if (username || formattedUsername) {
+        messageElement.textContent = `Goodbye, ${formattedUsername}!`;
     } else {
         messageElement.textContent = 'Goodbye!';
     }

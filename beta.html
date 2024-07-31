@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const username = getStorageItem('username');
+    const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
     const discordID = getStorageItem('discordId');
     const profilePic = getStorageItem('profile-picture');
     const now = new Date();
@@ -310,15 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
         setStorageItem('loginTime', now.toString());
     }
 
-    if (username) {
+    if (username || formattedUsername) {
         if (hours >= 0 && hours < 12) {
-            user.textContent = `Good Morning, ${username}`;
+            user.textContent = `Good Morning, ${formattedUsername}`;
         } else if (hours >= 12 && hours < 18) {
-            user.textContent = `Good Afternoon, ${username}`;
+            user.textContent = `Good Afternoon, ${formattedUsername}`;
         } else if (hours >= 18 && hours < 22) {
-            user.textContent = `Good Evening, ${username}`;
+            user.textContent = `Good Evening, ${formattedUsername}`;
         } else {
-            user.textContent = `Good Night, ${username}`;
+            user.textContent = `Good Night, ${formattedUsername}`;
         }
     } else {
         if (hours >= 0 && hours < 12) {

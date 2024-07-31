@@ -11,6 +11,7 @@ const profilePicture = document.getElementById('profile-picture');
 
 resetPasswordButton.style.display = 'none';
 let validUsers = getUsers();
+validUsers = getUsers();
 const webhook = getWebhook();
 const bugerror = bugError();
 const bugwebhook = getWebhookBug();
@@ -71,7 +72,7 @@ function sendDiscordNotification1(discordID, action) {
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const day = now.getDay();
-    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday
+    const allowedDays = [5, 6, 0, 2, 3]; // Friday, Saturday, Sunday, Tuesday, Wednesday
     const startHour = 8;
     const endHour = 22;
 
@@ -92,11 +93,15 @@ function sendDiscordNotification1(discordID, action) {
         const message = {
             title: 'Beta Login | Code Master',
             embeds: [{
+                color: 0x9A44F7,
                 description: `User <@${discordID}> ${action}\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
                 thumbnail: {
                     url: user ? user.discordPhoto : 'img/logoMain2.png' // Default image if user not found
                 },
-                username: 'Beta Login | Code Master'
+                footer: {
+                    text: 'Beta Login | Code Master',
+                },
+                timestamp: now.toISOString() // Add the timestamp
             }]
         };
 
@@ -126,7 +131,6 @@ function sendBugNotification(title, description, image) {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-
     // Check if the current time is within the allowed days and hours
     if (hours === 0 && minutes === 0 && seconds === 0) {
         const embed = {
@@ -141,8 +145,9 @@ function sendBugNotification(title, description, image) {
                     footer: {
                         text: "Code Master Beta"
                     },
-                username: 'Beta Login | Code Master'
-            }]
+                    username: 'Beta Login | Code Master'
+                }
+            ]
         };
 
         fetch(bugwebhook, {
@@ -214,19 +219,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 body.style.backgroundImage = "url('img/background/raysShine.jpg')";
                 break;
             case 2: // Tuesday
-            body.style.backgroundImage = "url('img/background/earthPlanet.jpg')";
+                body.style.backgroundImage = "url('img/background/earthPlanet.jpg')";
                 break;
             case 3: // Wednesday
-            body.style.backgroundImage = "url('img/background/rainbowWaves.jpg')";
+                body.style.backgroundImage = "url('img/background/rainbowWaves.jpg')";
                 break;
             case 4: // Thursday
-            body.style.backgroundImage = "url('img/background/neonLights.jpg')";
+                body.style.backgroundImage = "url('img/background/neonLights.jpg')";
                 break;
             case 5: // Friday
-            body.style.backgroundImage = "url('img/background/neonLights2.jpg')";
+                body.style.backgroundImage = "url('img/background/neonLights2.jpg')";
                 break;
             case 6: // Saturday
-            body.style.backgroundImage = "url('img/background/neonLights3.jpg')";
+                body.style.backgroundImage = "url('img/background/neonLights3.jpg')";
                 break;
             default:
                 body.style.backgroundImage = "url('img/background/codeMaster.jpg')";
@@ -240,10 +245,18 @@ document.addEventListener("DOMContentLoaded", function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            const username = document.getElementById('username').value.trim();
+            const username = document.getElementById('username').value.trim().toLowerCase(); // Convert to lowercase
             const password = document.getElementById('password').value.trim().toLowerCase(); // Convert to lowercase
 
-            let user = validUsers.find(user => user.name === username && user.password.toLowerCase() === password); // Convert stored password to lowercase for comparison
+            // Debugging statements
+            console.log("Entered Username:", username);
+            console.log("Entered Password:", password);
+            console.log("Valid Users:", validUsers);
+
+            let user = validUsers.find(user => user.name.toLowerCase() === username && user.password.toLowerCase() === password); // Convert stored password to lowercase for comparison
+
+            // Debugging statement
+            console.log("Matching User:", user);
 
             if (user) {
                 infoDiv.style.fontSize = '1.2em';

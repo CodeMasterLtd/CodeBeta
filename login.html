@@ -95,7 +95,7 @@
     </div>
     <script>
         const footer = document.getElementById('footer');
-        const discordUrl = 'index.html'
+        const discordUrl = 'https://discord.com/channels/1236105830038769695/1236105830525435932'
 
         function copyRight() {
             const currentYear = new Date().getFullYear();
@@ -138,11 +138,12 @@
 
         function displayMessage() {
             const username = getStorageItem('username');
+            const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
             const profilePictureUrl = 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
-            if (username) {
+            if (username || formattedUsername) {
                 messageElement.textContent = `Loading Login Details! Please Wait`;
                 loadPage();
             } else {
@@ -155,12 +156,13 @@
 
         function displayWelcomeMessage() {
             const username = getStorageItem('username');
+            const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
             const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
-            if (username) {
-                messageElement.textContent = `Welcome, ${username}! We're glad to have you back!`;
+            if (username || formattedUsername) {
+                messageElement.textContent = `Welcome, ${formattedUsername}! We're glad to have you back!`;
                 loadPage();
             } else {
                 window.location.href = discordUrl;

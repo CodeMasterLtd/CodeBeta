@@ -9,7 +9,7 @@ const initialAdmins = [
     {
         "discordID": "1258565691796099072", // Test
         "name": "CodeMaster",
-        "password": "CodeMasterTest",
+        "password": "Ceo",
         "role": "CEO",
         "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logo2.png?raw=true'
     },
@@ -47,11 +47,11 @@ function getInitialUsers() {
 }
 
 export function getUsers() {
+    const initialUsers = getInitialUsers();
     const users = localStorage.getItem('users');
-    if (users) {
-        return JSON.parse(users);
+    if (users || initialUsers) {
+        return JSON.parse(users), initialUsers;
     } else {
-        const initialUsers = getInitialUsers();
         saveUsers(initialUsers);
         return initialUsers;
     }
@@ -60,6 +60,7 @@ export function getUsers() {
 export function saveUsers(users) {
     localStorage.setItem('users', JSON.stringify(users));
 }
+
 
 export function updateUserPassword(username, newPassword) {
     const users = getUsers();
