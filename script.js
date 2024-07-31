@@ -72,7 +72,7 @@ function sendDiscordNotification1(discordID, action) {
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const day = now.getDay();
-    const allowedDays = [5, 6, 0, 2, 3]; // Friday, Saturday, Sunday, Tuesday, Wednesday
+    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday, Tuesday, Wednesday
     const startHour = 8;
     const endHour = 22;
 
