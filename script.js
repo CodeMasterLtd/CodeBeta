@@ -30,7 +30,6 @@ function timeOut() {
         infoDiv.style.fontSize = '14px';
         infoDiv.style.color = 'white';
         infoDiv.innerHTML = `
-            <p>Code Master Beta.</p>
             <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
         `;
     }, 2000);
@@ -173,19 +172,20 @@ function sendBugNotification(title, description, image) {
 function time() {
     const now = new Date();
     const hours = now.getHours();
+    infoDiv.style.fontSize = '1.0rem';
 
     if (hours >= 0 && hours < 12) {
-        setTimeout(timeOut, 5000);
-        infoDiv.innerHTML = '<p>Good Morning</p>';
+        setTimeout(timeOut, 0);
+        infoDiv.innerHTML = '<p> Hello, Good Morning</p>';
     } else if (hours >= 12 && hours < 18) {
-        setTimeout(timeOut, 5000);
-        infoDiv.innerHTML = '<p>Good Afternoon</p>';
+        setTimeout(timeOut, 0);
+        infoDiv.innerHTML = '<p>Hello, Good Afternoon</p>';
     } else if (hours >= 18 && hours < 22) {
-        setTimeout(timeOut, 5000);
-        infoDiv.innerHTML = '<p>Good Evening</p>';
+        setTimeout(timeOut, 0);
+        infoDiv.innerHTML = '<p>Hello, Good Evening</p>';
     } else {
-        setTimeout(timeOut, 5000);
-        infoDiv.innerHTML = '<p>Good Night</p>';
+        setTimeout(timeOut, 0);
+        infoDiv.innerHTML = '<p>Hello, Good Night</p>';
     }
 }
 
@@ -246,19 +246,21 @@ document.addEventListener("DOMContentLoaded", function() {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value.trim().toLowerCase(); // Convert to lowercase
-            const password = document.getElementById('password').value.trim().toLowerCase(); // Convert to lowercase
+            const password = document.getElementById('password').value.trim(); // Convert to lowercase
 
             // Debugging statements
             console.log("Entered Username:", username);
             console.log("Entered Password:", password);
             console.log("Valid Users:", validUsers);
 
-            let user = validUsers.find(user => user.name.toLowerCase() === username && user.password.toLowerCase() === password); // Convert stored password to lowercase for comparison
+            let user = validUsers.find(user => user.name.toLowerCase() === username && user.password === password); // Convert stored username to lowercase for comparison
 
             // Debugging statement
             console.log("Matching User:", user);
 
             if (user) {
+                loginForm.style.display = 'none';
+
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
@@ -277,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 infoDiv.style.color = 'red';
                 infoDiv.innerHTML = '<p>Invalid username or password. Please try again.</p>';
                 profilePicture.src = 'img/logoMain2.png';
+                loginForm.style.display = 'block';
             }
         });
     }
