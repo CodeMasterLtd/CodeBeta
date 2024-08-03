@@ -4,7 +4,7 @@ const initialCEO = [
         "name": "CodeMaster",
         "password": "Ceo",
         "role": "CEO",
-        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logo2.png?raw=true'
+        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logoNeon.png?raw=true'
     }
 ];
 
