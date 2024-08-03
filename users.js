@@ -58,7 +58,7 @@ function getInitialUsers() {
 
 export function getUsers() {
     const initialUsers = getInitialUsers();
-    const users = localStorage.getItem('users.json');
+    const users = localStorage.getItem('users');
     if (users || initialUsers) {
         return JSON.parse(users), initialUsers;
     } else {
@@ -68,7 +68,7 @@ export function getUsers() {
 }
 
 export function saveUsers(users) {
-    localStorage.setItem('users.json', JSON.stringify(users));
+    localStorage.setItem('users', JSON.stringify(users));
 }
 
 
