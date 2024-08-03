@@ -1,3 +1,13 @@
+const initialCEO = [
+    {
+        "discordID": "1258565691796099072", // Test
+        "name": "CodeMaster",
+        "password": "Ceo",
+        "role": "CEO",
+        "discordPhoto": 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/logo2.png?raw=true'
+    }
+];
+
 const initialAdmins = [
     {
         "discordID": "1030462659092545546", // CEO
@@ -43,12 +53,12 @@ const initialBeta = [
 ];
 
 function getInitialUsers() {
-    return [...initialAdmins, ...initialStaff, ...initialBeta];
+    return [...initialAdmins, ...initialStaff, ...initialBeta, ...initialCEO];
 }
 
 export function getUsers() {
     const initialUsers = getInitialUsers();
-    const users = localStorage.getItem('users');
+    const users = localStorage.getItem('users.json');
     if (users || initialUsers) {
         return JSON.parse(users), initialUsers;
     } else {
@@ -58,7 +68,7 @@ export function getUsers() {
 }
 
 export function saveUsers(users) {
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('users.json', JSON.stringify(users));
 }
 
 

@@ -1,5 +1,5 @@
 import { getUsers, updateUserPassword } from './users.js';
-import { getWebhook, bugError, getWebhookBug } from './config.js';
+import { getWebhook } from './config.js';
 
 const loginForm = document.getElementById('login-form');
 const resetForm = document.getElementById('reset-form');
@@ -13,8 +13,6 @@ resetPasswordButton.style.display = 'none';
 let validUsers = getUsers();
 validUsers = getUsers();
 const webhook = getWebhook();
-const bugerror = bugError();
-const bugwebhook = getWebhookBug();
 
 function copyRight() {
     const currentYear = new Date().getFullYear();
@@ -35,22 +33,14 @@ function timeOut() {
     }, 2000);
 }
 
-function form() {
-    setTimeout(() => {
-        if (loginForm) {
-            loginForm.style.display = 'block';
-            resetForm.style.display = 'none';
-        }
-    }, 2000);
-}
-
-// Utility functions to get and set items in localStorage or sessionStorage
-function getStorageItem(key) {
-    if (localStorage.getItem(key)) {
-        return localStorage.getItem(key);
-    }
-    return sessionStorage.getItem(key);
-}
+//function form() {
+//    setTimeout(() => {
+//        if (loginForm) {
+//            loginForm.style.display = 'block';
+//            resetForm.style.display = 'none';
+//        }
+//    }, 2000);
+//}
 
 function setStorageItem(key, value) {
     try {
@@ -58,11 +48,6 @@ function setStorageItem(key, value) {
     } catch (e) {
         sessionStorage.setItem(key, value);
     }
-}
-
-function removeStorageItem(key) {
-    localStorage.removeItem(key);
-    sessionStorage.removeItem(key);
 }
 
 function sendDiscordNotification1(discordID, action) {
@@ -87,6 +72,11 @@ function sendDiscordNotification1(discordID, action) {
     // Check if the current time is within the allowed days and hours
     if (allowedDays.includes(day) || (timeNow >= startHour && timeNow < endHour)) {
         const user = validUsers.find(user => user.discordID === discordID);
+
+        if (user && (user.username === 'CodeMaster')) {
+            console.log('Discordlog not sent: User is Ceo');
+            return;
+        }
         console.log(`User found: ${user ? 'yes' : 'no'}`);
 
         const message = {
@@ -124,51 +114,6 @@ function sendDiscordNotification1(discordID, action) {
     }
 }
 
-function sendBugNotification(title, description, image) {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-
-    // Check if the current time is within the allowed days and hours
-    if (hours === 0 && minutes === 0 && seconds === 0) {
-        const embed = {
-            content: `<@&${bugerror}>`,
-            embeds: [
-                {
-                    title: title,
-                    description: description,
-                    image: {
-                        url: image
-                    },
-                    footer: {
-                        text: "Code Master Beta"
-                    },
-                    username: 'Beta Login | Code Master'
-                }
-            ]
-        };
-
-        fetch(bugwebhook, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(embed)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Discord notification sent successfully');
-            } else {
-                console.error('Failed to send Discord notification:', response.status, response.statusText);
-            }
-        })
-        .catch(error => console.error('Error sending Discord notification:', error));
-    } else {
-        console.log('Notification not sent: Outside allowed time window or not an allowed day.');
-    }
-}
-
 function time() {
     const now = new Date();
     const hours = now.getHours();
@@ -192,6 +137,7 @@ function time() {
 document.addEventListener("DOMContentLoaded", function() {
     copyRight();
     refreshUserData();
+    time();
 
     const togglePassword = document.getElementById('toggle-password');
     const passwordField = document.getElementById('password');
@@ -208,40 +154,32 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const day = new Date().getDay();
     const body = document.body;
     if (body) {
-        switch(day) {
-            case 0: // Sunday
-                body.style.backgroundImage = "url('img/background/codeMaster.jpg')";
-                break;
-            case 1: // Monday
-                body.style.backgroundImage = "url('img/background/raysShine.jpg')";
-                break;
-            case 2: // Tuesday
-                body.style.backgroundImage = "url('img/background/earthPlanet.jpg')";
-                break;
-            case 3: // Wednesday
-                body.style.backgroundImage = "url('img/background/rainbowWaves.jpg')";
-                break;
-            case 4: // Thursday
-                body.style.backgroundImage = "url('img/background/neonLights.jpg')";
-                break;
-            case 5: // Friday
-                body.style.backgroundImage = "url('img/background/neonLights2.jpg')";
-                break;
-            case 6: // Saturday
-                body.style.backgroundImage = "url('img/background/neonLights3.jpg')";
-                break;
-            default:
-                body.style.backgroundImage = "url('img/background/codeMaster.jpg')";
-        }
+        // Array of background image URLs
+        const backgrounds = [
+            'img/background/codeMaster.jpg',
+            'img/background/raysShine.jpg',
+            'img/background/earthPlanet.jpg',
+            'img/background/rainbowWaves.jpg',
+            'img/background/neonLights.jpg',
+            'img/background/neonLights2.jpg',
+            'img/background/neonLights3.jpg',
+            'img/background/neonLights4.jpg',
+            'img/background/neonLights5.jpg',
+            'img/background/neonLights6.jpg',
+        ];
+    
+        const randomIndex = Math.floor(Math.random() * backgrounds.length);
+    
+        body.style.backgroundImage = `url('${backgrounds[randomIndex]}')`;
+    
         body.style.backgroundSize = "cover";
         body.style.backgroundRepeat = "no-repeat";
         body.style.backgroundPosition = "center";
         body.style.backgroundAttachment = "fixed";
     }
-
+    
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -264,7 +202,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
-                sendDiscordNotification1(user.discordID, 'has successfully logged in.');
+                if (user.name === 'codemaster' || user.name === 'CodeMaster') {
+                    console.log('Discord log not sent: User is CodeMaster');
+                } else {
+                    sendDiscordNotification1(user.discordID, 'has successfully logged in.');
+                }
                 userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
 
                 setStorageItem('username', username);
@@ -322,6 +264,4 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-    time();
-    sendBugNotification("Services Available", "Our Services are currently available.", "img/error/online.png");
 });

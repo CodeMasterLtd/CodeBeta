@@ -79,7 +79,7 @@ function displayGoodbyeMessage() {
     const username = getStorageItem('username');
     const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
     const messageElement = document.getElementById('message');
-    const allowWeb = true;
+    const allowWeb = false;
     const website = 'https://www.codemaster.ltd/'
     const discord = 'https://discord.gg/XcEHvPR9qA'
 
@@ -94,7 +94,7 @@ function displayGoodbyeMessage() {
         profilePictureElement.src = 'img/logoMain2.png';
     }, 3000);
     setTimeout(function() {
-        window.location.href = allowWeb ? website : discord;
+        window.location.href = allowWeb ? website : 'index.html' || discord;
     }, 6000);
 }
 
