@@ -207,9 +207,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     sendDiscordNotification1(user.discordID, 'has successfully logged in.');
                 }
-                userrole.innerHTML = '<h3>User Role: ' + user.role + '</h3>';
 
                 setStorageItem('username', username);
+                setStorageItem('user-role', user.role);
                 setStorageItem('discordId', user.discordID);
                 setStorageItem('profile-picture', user.discordPhoto);
 

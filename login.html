@@ -9,19 +9,6 @@
     <link rel="stylesheet" href="styles.css">
     <title>Beta Welcome | Code Master</title>
     <style>
-        .mainBody {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100vh;
-        }
-
         .message {
             font-size: 24px;
             margin-bottom: 20px;
@@ -70,10 +57,22 @@
                 margin-left: 10px;
             }
         }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        #user-role {
+            text-align: left;
+            margin-top: -20px;
+            font-size: 12px;
+            margin-left: -5%;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <div id="user-role"></div>
         <div class="beta-banner">BETA</div>
         <div class="beta-badge">
             <img id="profile-picture" src="img/logo2.png" alt="Default Profile Picture">
@@ -95,7 +94,7 @@
     </div>
     <script>
         const footer = document.getElementById('footer');
-        const discordUrl = 'https://discord.com/channels/1236105830038769695/1236105830525435932'
+        const discordUrl = 'https://discord.com/channels/1236105830038769695/1236105830525435932';
 
         function copyRight() {
             const currentYear = new Date().getFullYear();
@@ -126,59 +125,104 @@
 
         function loadDefaultPage() {
             setTimeout(() => {
-                    window.location.href = discordUrl; // Redirect to the dashboard or another page
-                }, 10000);
+                window.location.href = discordUrl; // Redirect to the dashboard or another page
+            }, 10000);
         }
 
         function loadPage() {
             setTimeout(() => {
-                    window.location.href = 'beta.html'; // Redirect to the dashboard or another page
-                }, 10000);
+                window.location.href = 'beta.html'; // Redirect to the dashboard or another page
+            }, 8000);
         }
 
         function displayMessage() {
             const username = getStorageItem('username');
-            const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
+            const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
             const profilePictureUrl = 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
             if (username || formattedUsername) {
                 messageElement.textContent = `Loading Login Details! Please Wait`;
-                loadPage();
             } else {
                 messageElement.textContent = 'No Login Details Found';
                 loadDefaultPage();
             }
 
             profilePictureElement.src = profilePictureUrl;
-        }        
+        }
 
         function displayWelcomeMessage() {
             const username = getStorageItem('username');
-            const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
+            const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
             const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
 
-            if (username || formattedUsername) {
+            if (username) {
                 messageElement.textContent = `Welcome, ${formattedUsername}! We're glad to have you back!`;
-                loadPage();
             } else {
                 window.location.href = discordUrl;
             }
 
             profilePictureElement.src = profilePictureUrl;
-            profilePictureElement.style.boxShadow = 'orange 0 0 10px';
+            profilePictureElement.style.boxShadow = '#E055F6 0 0 10px';
+        }
+
+        function displayRoleMessage() {
+            const username = getStorageItem('username');
+            const role = getStorageItem('user-role');
+            const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
+            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
+            const messageElement = document.getElementById('message');
+            const userRoleElement = document.getElementById('user-role');
+            const profilePictureElement = document.getElementById('profile-picture');
+
+            if (username || formattedUsername || role) {
+                messageElement.textContent = `Getting your Discord role Details! Please Wait`;
+            } else {
+                messageElement.textContent = 'No Discord role Details Found';
+                loadDefaultPage();
+            }
+
+            profilePictureElement.src = profilePictureUrl;
+        }
+
+        function displayRole() {
+            const username = getStorageItem('username');
+            const role = getStorageItem('user-role');
+            const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
+            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
+            const messageElement = document.getElementById('message');
+            const userRoleElement = document.getElementById('user-role');
+            const profilePictureElement = document.getElementById('profile-picture');
+
+            if (role) {
+                userRoleElement.innerHTML = `<h3>User Role: ${role}</h3>`;
+                loadPage();
+            } else {
+                messageElement.textContent = 'No Discord role Details Found';
+                loadDefaultPage();
+            }
+
+            profilePictureElement.src = profilePictureUrl;
         }
 
         // Run this function when the page loads
         window.onload = function() {
-            displayMessage();
+    displayMessage();
+    setTimeout(() => {
+        displayWelcomeMessage();
+        setTimeout(() => {
+            displayRoleMessage();
             setTimeout(() => {
-                displayWelcomeMessage();
-                }, 5000);
-        };
+                displayRole();
+            }, 2500);
+        }, 5000);
+    }, 7000);
+};
+
+
 
         copyRight();
     </script>

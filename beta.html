@@ -9,10 +9,11 @@
     <title>Beta Shop | Code Master</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;            margin: 0;
             padding: 0;
             background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
         }
 
         header {
@@ -32,18 +33,28 @@
 
         .container {
             width: 90%;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
-            background-color: #000;
-            margin-bottom: 70px;
+            background-color: #111;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
 
         .section {
             margin-bottom: 40px;
-            background-color: #a8a8a8;
+            background-color: #000;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 50px;
+            margin: 0 0 10px;
+        }
+
+        span {
+            color: red;
         }
 
         h1, h2 {
@@ -51,7 +62,7 @@
         }
 
         h2 {
-            color: #333;
+            color: #fff;
             margin-bottom: 20px;
             box-shadow: inset 0 0 10px #333;
             padding: 5px;
@@ -72,13 +83,14 @@
         }
 
         .feature {
-            background-color: #838383;
-            border-radius: 10px;
+            background-color: #222;
+            border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .feature img {
@@ -125,33 +137,41 @@
         }
 
         .updated {
-            text-align: left;
+            text-align: center;
             font-size: 13px;
-            color: #161515;
+            color: #838282;
             margin-bottom: 20px;
         }
 
         h4 {
             text-align: center;
-            color: #000;
+            color: #fff;
             font-size: 40px;
             margin-bottom: 20px;
             margin-top: -20px;
         }
 
-        /* Logout button */
-        .logout-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: #ffffff00;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-        }
+/* Logout button */
+.logout-button {
+    position: absolute;
+    top: 1%;
+    left: 95%;
+    transform: translate(-50%, -40%);
+    padding: 10px 20px;
+    width: 100%;
+    height: 100%;
+    background-color: #00000000;
+    background-image: url('./img/LogoutBtn.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
 
         .logout-button:hover {
             font-weight: 600;
@@ -196,6 +216,7 @@
             }
             h1 {
                 font-size: 30px;
+                margin-top: -20px;
             }
             header {
                 padding: 15px;
@@ -215,6 +236,13 @@
                 margin-top: 20px;
                 margin-bottom: -30px;
             }
+            /* Logout button */
+            .logout-button {
+                position: absolute;
+                top: 0%;
+                left: 85%;
+
+            }
         }
     </style>
 </head>
@@ -222,8 +250,8 @@
     <header>
         <h3 id="user"></h3>
         <img style="width: 200px;" src="img/logo2.png" alt="Your Logo">
-        <h1 style="margin-top: -40px;">Code Master Beta</h1>
-        <button class="logout-button" id="logout-button">Logout</button>
+        <h1>Code Master<span> Beta</span></h1>
+        <button class="logout-button" id="logout-button"></button>
     </header>
 
     <div class="container">
