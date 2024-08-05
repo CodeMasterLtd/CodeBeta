@@ -156,7 +156,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const body = document.body;
     if (body) {
-        // Array of background image URLs
+        // Array of seasonal background image URLs
+        const seasonalBackgrounds = {
+            newYear: 'img/background/season/newYear.jpg',
+            halloween: 'img/background/season/halloween.jpg',
+            christmas: 'img/background/season/christmas.jpg',
+            fireworksNight: 'img/background/season/fireworkNight.jpg',
+            CEOBirthday: 'img/background/season/12thJuly.jpg',
+        };
+    
+        // Array of general background image URLs
         const backgrounds = [
             'img/background/codeMaster.jpg',
             'img/background/raysShine.jpg',
@@ -170,15 +179,37 @@ document.addEventListener("DOMContentLoaded", function() {
             'img/background/neonLights6.jpg',
         ];
     
-        const randomIndex = Math.floor(Math.random() * backgrounds.length);
+        const isToday = (day, month) => {
+            const today = new Date();
+            const localMonth = - 1;
+            return today.getMonth() === month + localMonth && today.getDate() === day;
+        };
     
-        body.style.backgroundImage = `url('${backgrounds[randomIndex]}')`;
+        let backgroundUrl = null;
+        if (isToday(1, 0)) { // January 1st for New Year
+            backgroundUrl = seasonalBackgrounds.newYear;
+        } else if (isToday(12, 7)) { // CEO Birthday
+            backgroundUrl = seasonalBackgrounds.CEOBirthday;
+            body.style.backgroundPosition = "top"
+            body.style.backgroundSize = "contain";
+        } else if (isToday(31, 9)) { // October 31st for Halloween
+            backgroundUrl = seasonalBackgrounds.halloween;
+        } else if (isToday(5, 10)) { // November 5th for Fireworks Night (Guy Fawkes Night in the UK)
+            backgroundUrl = seasonalBackgrounds.fireworksNight;
+        } else if (isToday(25, 11)) { // December 25th for Christmas
+            backgroundUrl = seasonalBackgrounds.christmas;
+        } else {
+            const randomIndex = Math.floor(Math.random() * backgrounds.length);
+            backgroundUrl = backgrounds[randomIndex];
+            body.style.backgroundPosition = "center";
+        }
     
+        body.style.backgroundImage = `url('${backgroundUrl}')`;
         body.style.backgroundSize = "cover";
         body.style.backgroundRepeat = "no-repeat";
-        body.style.backgroundPosition = "center";
         body.style.backgroundAttachment = "fixed";
     }
+    
     
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {

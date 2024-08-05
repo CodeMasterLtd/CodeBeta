@@ -17,7 +17,7 @@
         }
 
         header {
-            background-color: #333;
+            background-color: #7e469000;
             color: #fff;
             padding: 10px;
             text-align: center;
@@ -25,10 +25,16 @@
             position: relative; /* Ensure positioning for the logout button */
         }
 
-        header img {
+        .logo2 {
             border-radius: 20px;
             width: 100px;
             height: auto;
+        }
+
+        .betaLogo {
+            align-items: center;
+            width: 50%;
+            margin-top: -50px;
         }
 
         .container {
@@ -51,10 +57,15 @@
         h1 {
             font-size: 50px;
             margin: 0 0 10px;
+            text-decoration: underline;
+            text-decoration-color: #E055F6;
+            text-decoration-thickness: 5px;
+            text-decoration-style: dotted;
         }
 
         span {
             color: red;
+            word-spacing: -30px;
         }
 
         h1, h2 {
@@ -231,10 +242,16 @@
                 flex: 1 1 calc(50% - 20px);
             }
 
-            header img {
+            .logo2 {
                 width: 100px;
                 margin-top: 20px;
                 margin-bottom: -30px;
+            }
+
+            .betaLogo {
+                align-items: center;
+                width: 70%;
+                margin-top: -50px;
             }
             /* Logout button */
             .logout-button {
@@ -249,8 +266,9 @@
 <body>
     <header>
         <h3 id="user"></h3>
-        <img style="width: 200px;" src="img/logo2.png" alt="Your Logo">
-        <h1>Code Master<span> Beta</span></h1>
+        <img class="logo2" style="width: 200px;" src="img/logo2.png" alt="Your Logo">
+        <br></br>
+        <img class="betaLogo" src="img/betaLogo.png" alt="Your Logo">
         <button class="logout-button" id="logout-button"></button>
     </header>
 

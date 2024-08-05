@@ -132,7 +132,7 @@
         function loadPage() {
             setTimeout(() => {
                 window.location.href = 'beta.html'; // Redirect to the dashboard or another page
-            }, 8000);
+            }, 4000);
         }
 
         function displayMessage() {
@@ -143,7 +143,7 @@
             const profilePictureElement = document.getElementById('profile-picture');
 
             if (username || formattedUsername) {
-                messageElement.textContent = `Loading Login Details! Please Wait`;
+                messageElement.textContent = `We are loading your login details. Please wait...`;
             } else {
                 messageElement.textContent = 'No Login Details Found';
                 loadDefaultPage();
@@ -154,52 +154,38 @@
 
         function displayWelcomeMessage() {
             const username = getStorageItem('username');
+            const role = getStorageItem('user-role');
             const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
             const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
             const messageElement = document.getElementById('message');
             const profilePictureElement = document.getElementById('profile-picture');
+            const userRoleElement = document.getElementById('user-role');
 
-            if (username) {
-                messageElement.textContent = `Welcome, ${formattedUsername}! We're glad to have you back!`;
+            if (username || role) {
+                messageElement.textContent = `Welcome, ${formattedUsername}! We're glad to have you here!`;
+                userRoleElement.innerHTML = `<h3>User Role: ${role}</h3>`;
+                loadPage();
             } else {
                 window.location.href = discordUrl;
             }
 
             profilePictureElement.src = profilePictureUrl;
-            profilePictureElement.style.boxShadow = '#E055F6 0 0 10px';
+            if (username === 'codemaster' || username === 'CodeMaster') {
+                profilePictureElement.style.boxShadow = 'none';
+            } else {
+                profilePictureElement.style.boxShadow = '#E055F6 0 0 10px';
+            }
         }
 
         function displayRoleMessage() {
             const username = getStorageItem('username');
-            const role = getStorageItem('user-role');
             const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
-            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
+            const profilePictureUrl = 'img/logo2.png';
             const messageElement = document.getElementById('message');
-            const userRoleElement = document.getElementById('user-role');
             const profilePictureElement = document.getElementById('profile-picture');
 
-            if (username || formattedUsername || role) {
-                messageElement.textContent = `Getting your Discord role Details! Please Wait`;
-            } else {
-                messageElement.textContent = 'No Discord role Details Found';
-                loadDefaultPage();
-            }
-
-            profilePictureElement.src = profilePictureUrl;
-        }
-
-        function displayRole() {
-            const username = getStorageItem('username');
-            const role = getStorageItem('user-role');
-            const formattedUsername = username ? username.charAt(0).toUpperCase() + username.slice(1).toLowerCase() : '';
-            const profilePictureUrl = getStorageItem('profile-picture') || 'img/logo2.png';
-            const messageElement = document.getElementById('message');
-            const userRoleElement = document.getElementById('user-role');
-            const profilePictureElement = document.getElementById('profile-picture');
-
-            if (role) {
-                userRoleElement.innerHTML = `<h3>User Role: ${role}</h3>`;
-                loadPage();
+            if (username || formattedUsername) {
+                messageElement.textContent = `We are retrieving your Discord details...`;
             } else {
                 messageElement.textContent = 'No Discord role Details Found';
                 loadDefaultPage();
@@ -212,12 +198,9 @@
         window.onload = function() {
     displayMessage();
     setTimeout(() => {
-        displayWelcomeMessage();
+        displayRoleMessage();
         setTimeout(() => {
-            displayRoleMessage();
-            setTimeout(() => {
-                displayRole();
-            }, 2500);
+            displayWelcomeMessage();
         }, 5000);
     }, 7000);
 };

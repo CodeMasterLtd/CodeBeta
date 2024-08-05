@@ -3,132 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="img/error/maintenanceLogo.png">
-    <link rel="icon" href="img/error/maintenanceLogo.png" type="image/png">
-    <link rel="shortcut icon" href="img/error/maintenanceLogo.png" type="image/png">
-    <title>Maintenance | Code Master</title>
-    <style>
-        * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0; 
-    background-color: #00000000;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-body {
-    background-image: url('img/background/codeMaster.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    position: relative;
-}
-
-.login-container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    background: linear-gradient(to top, #329fffad, #275ae7ad);
-    box-shadow: inset #5EDDF3 0 0 20px, #E055F6 0 0 20px;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    z-index: 1; /* Set a higher z-index for the container content */
-}
-
-h1 {
-    color: #ffffff;
-    margin-bottom: 10px;
-    font-size: 35px;
-    font-weight: 700;
-}
-
-h2 {
-    margin-bottom: -20px;
-    font-size: 35px;
-    text-shadow:#000 0 0 10px;
-}
-
-p {
-    font-size: 18px;
-    color: #ffffff;
-    margin: 10px 0;
-}
-
-.betaLogo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-bottom: -10px;
-    margin-top: -40px;
-}
-
-.betaLogo img {
-    max-width: 80%;
-}
-
-.betaLogo1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-top: -80px;
-    margin-bottom: 30px;
-    width: 110%;
-}
-
-.discord {
-    font-size: 16px;
-    background-color: #00000080;
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: inset #000 0 0 10px, #000 0 0 10px;
-}
-
-.discord a {
-    font-size: 16px;
-    color: #fff;
-}
-
-.discord a:hover {
-    color: #000;
-    text-shadow: #fff 0 0 5px;
-}
-
-@media (max-width: 768px) {
-    .login-container {
-        max-width: 90%;
-    }
-
-    .betaLogo {
-        max-width: 90%;
-        margin-top: 0;
-    }
-}
-
-    </style>
+    <link rel="apple-touch-icon" href="img/logo2.png">
+    <link rel="icon" href="img/logo2.png" type="image/png">
+    <link rel="shortcut icon" href="img/logo2.png" type="image/png">
+    <title>Beta Login | Code Master</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="betaLogo">
-            <img src="img/error/maintenanceLogo.gif" alt="Logo" style="max-width: 100%;">
-            <img class="betaLogo1" src="img/betaLogo.png" alt="Your Logo">
+    <div id="popupAd" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Join us on Discord</h2>
+            <img src="img/discord.png" alt="CodeMaster Logo">
+            <p>Your ultimate destination for mastering coding. Visit us to explore what we have for you!</p>
+            <button onclick="visitWebsite()">Join Now</button>
         </div>
-        <h1>We'll be back soon!</h1>
-        <p>We're currently down for maintenance. Please check back later.</p>
-        <h2>⚠️</h2>
-        <p class="discord">If this page is still showing after 24hours then please open a ticket in our <a href="https://discord.com/channels/1236105830038769695/1236105830525435932">Discord</a></p>
     </div>
+    <div class="login-container">
+        <div class="bannerBg">
+    <div class="beta-badge">
+        <img style="width: 150px;" id="profile-picture" src="img/logoNeon.png" alt="Default Profile Picture">
+        <br></br>
+        <img style="width: 300px;" class="betaLogo" src="img/betaLogo.png" alt="Your Logo">
+    </div>
+</div>
+        <h1 id="welcome"></h1>
+        <form id="login-form" style="display: block;">
+            <input type="text" id="username" placeholder="Username" name="identifier" required="true" tabindex="-1" spellcheck="false" autocomplete="current-password" autocapitalize="none">
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password" name="password" required="true" tabindex="1" spellcheck="false" autofocus autocomplete="off" autocapitalize="none">
+                <span class="toggle-password" id="toggle-password" title="Show Password">🔓</span> <!-- Eye icon -->
+            </div>
+            <button class="login" type="submit"></button>
+            <br></br>
+        </form>
+        <button class="resetBtn" id="reset-password-button">Reset Password</button>
+        <form id="reset-form" style="display: none;">
+            <input type="text" id="reset-username" placeholder="Enter your username *" required>
+            <input type="password" id="new-password" placeholder="Enter new password *" required>
+            <button type="submit">Reset</button>
+        </form>
+        <div id="info" class="info">
+            <p>Welcome to Code Master Beta.</p>
+            <p>If you encounter any issues, please <a href="https://www.codemaster.ltd/pages/contact">contact us</a>.</p>
+        </div>
+        <footer>
+            © <span id="footer"></span> <a href="https://www.codemaster.ltd">Code Master</a> All rights reserved.
+        </footer>
+    </div>
+    <script src="script.js" type="module"></script>
+    <script>
+        const maintenance = false;
+        const showAds = false;
+        const def = 1000
+        function showPopup() {
+    document.getElementById('popupAd').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('popupAd').style.display = 'none';
+}
+
+function visitWebsite() {
+    window.open('https://discord.gg/XcEHvPR9qA', '_blank');
+    closePopup();
+}
+
+// Show the popup ad after a delay (e.g., 5 seconds)
+if (showAds) {
+    window.onload = function() {
+    setTimeout(showPopup, def);
+};
+}
+
+window.onload = function() {
+    if (maintenance) {
+        window.location.href = 'indexMaintenance.html';  
+    } else {
+        return;
+    }
+};
+    </script>
 </body>
 </html>
