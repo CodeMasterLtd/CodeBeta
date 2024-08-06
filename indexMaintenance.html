@@ -130,5 +130,16 @@ p {
         <h2>⚠️</h2>
         <p class="discord">If this page is still showing after 24 hours then please open a ticket in our <a href="https://discord.com/channels/1236105830038769695/1236105830525435932">Discord</a></p>
     </div>
+    <script type="module">
+        import { config } from './config.js';
+
+        window.onload = function() {
+            if (!config.maintenance) {
+                window.location.href = 'index.html';  
+            } else {
+                console.log('Welcome to the site.');
+            }
+        };
+    </script>
 </body>
 </html>

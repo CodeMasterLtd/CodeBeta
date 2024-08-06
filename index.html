@@ -52,8 +52,8 @@
         </footer>
     </div>
     <script src="script.js" type="module"></script>
+    <script src="config.js"></script>
     <script>
-        const maintenance = false;
         const showAds = false;
         const def = 1000
         function showPopup() {
@@ -75,14 +75,18 @@ if (showAds) {
     setTimeout(showPopup, def);
 };
 }
+</script>
 
-window.onload = function() {
-    if (maintenance) {
-        window.location.href = 'indexMaintenance.html';  
-    } else {
-        return;
-    }
-};
-    </script>
+<script type="module">
+    import { config } from './config.js';
+
+    window.onload = function() {
+        if (config.maintenance) {
+            window.location.href = 'indexMaintenance.html';  
+        } else {
+            console.log('Welcome to the site.');
+        }
+    };
+</script>
 </body>
 </html>

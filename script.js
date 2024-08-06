@@ -6,7 +6,6 @@ const resetForm = document.getElementById('reset-form');
 const resetPasswordButton = document.getElementById('reset-password-button');
 const infoDiv = document.getElementById('info');
 const footer = document.getElementById('footer');
-const userrole = document.getElementById('user-role');
 const profilePicture = document.getElementById('profile-picture');
 
 resetPasswordButton.style.display = 'none';
