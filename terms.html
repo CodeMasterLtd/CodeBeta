@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="apple-touch-icon" href="img/logo2.png">
-            <link rel="icon" href="img/logo2.png" type="image/png">
-            <link rel="shortcut icon" href="img/logo2.png" type="image/png">
-            <link rel="stylesheet" href="styles.css">
-        <title>Terms of Service | Code Master</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="img/logo2.png">
+    <link rel="icon" href="img/logo2.png" type="image/png">
+    <link rel="shortcut icon" href="img/logo2.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <title>Terms of Service | Code Master</title>
     <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(to top, #329eff, #0E1B4D);
+            box-shadow: inset #000 0 0 20px, #329eff 0 0 2px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
         .container h1 {
             text-align: center;
             color: #000;
@@ -22,16 +31,7 @@
             font-size: 16px;
             font-weight: 100;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(to top, #329eff, #0E1B4D);
-            box-shadow:inset #000 0 0 20px, #329eff 0 0 2px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .container span {
+        .container p, .container span {
             color: #ffffff;
         }
         .beta-badge {
@@ -40,6 +40,35 @@
         .footer {
             margin-top: 20px;
             text-align: center;
+        }
+        .buttons {
+            border: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons button {
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        #accept-btn {
+            background-color: green;
+            color: #000;
+        }
+        #decline-btn {
+            background-color: red;
+            color: #000;
+        }
+        #accept-btn:hover {
+            background-color: green;
+            color: #fff;
+        }
+        #decline-btn:hover {
+            background-color: red;
+            color: #fff;
         }
     </style>
 </head>
@@ -59,7 +88,80 @@
         <p>Code Master is not responsible for any damages or losses resulting from the use of our beta files. Users assume all risks associated with their use.</p>
         <h2><span>4.</span> Changes to Terms</h2>
         <p>We reserve the right to update or modify these terms at any time without prior notice. Your continued use of our services constitutes acceptance of the updated terms.</p>
+        <div class="buttons">
+            <button id="accept-btn">Accept</button>
+            <button id="decline-btn">Decline</button>
+        </div>
         <p class="footer">&copy; 2024 Code Master. All rights reserved.</p>
     </div>
+
+    <script>
+        function getStorageItem(key) {
+            if (localStorage.getItem(key)) {
+                return localStorage.getItem(key);
+            }
+            return sessionStorage.getItem(key);
+        }
+
+    function sendMessageToDiscord(color, action, otherInfo) {
+    const discordID = getStorageItem('discordId') || '**Unknown User**';
+    const profilePictureUrl = getStorageItem('profile-picture') || 'img/logoMain2.png';
+    const now = new Date();
+    const timeNow = now.getHours();
+    const hours24 = now.getHours();
+    const minutes = now.getMinutes();
+    const day = now.getDay();
+    const allowedDays = [5, 6, 0]; // Friday, Saturday, Sunday, Tuesday, Wednesday
+    const startHour = 8;
+    const endHour = 22;
+
+    // Check if the current time is within the allowed days and hours
+    if (allowedDays.includes(day) || (timeNow >= startHour && timeNow < endHour)) {
+
+        console.log(`User found: ${discordID ? 'yes' : 'no'}`);
+
+        const message = {
+            title: 'Terms of Service | Code Master',
+            embeds: [{
+                color: color,
+                description: `User <@${discordID}> ${action} [Terms or Service](https://beta.codemaster.ltd/terms.html)\n\n ${otherInfo}\n\n**Date: ${now.toLocaleDateString()}**`,
+                thumbnail: {
+                    url: discordID ? profilePictureUrl : 'img/logoMain2.png' // Default image if user not found
+                },
+                footer: {
+                    text: 'Terms of Service | Code Master',
+                },
+                timestamp: now.toISOString() // Add the timestamp
+            }]
+        };
+
+        fetch('https://discord.com/api/webhooks/1264315006854496288/JZz_aHj85UAm5aipAPkbV2eWtNj4IddhhwQ1SKNF5AcIPbpStWTa4BH1SSG_eUFmyZCD', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Discord notification sent successfully');
+            } else {
+                console.error('Failed to send Discord notification:', response.status, response.statusText);
+            }
+        })
+        .catch(error => console.error('Error sending Discord notification:', error));
+    } else {
+        console.log('Notification not sent: Outside allowed time window or not an allowed day.');
+    }
+}
+
+        document.getElementById('accept-btn').addEventListener('click', function() {
+            sendMessageToDiscord(0x57F287, `has accepted the `, ``);
+        });
+
+        document.getElementById('decline-btn').addEventListener('click', function() {
+            sendMessageToDiscord(0xED4245, `has declined the `, '```The CEO will recommend (COO/Admins/Staff) reaching out to users who declined the terms of service. If a resolution is not reached, their roles will be revoked, and their login information will be permanently deleted.```');
+        });
+    </script>
 </body>
 </html>

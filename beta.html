@@ -224,6 +224,21 @@
             background-color: #00000041;
             padding: 5px;
             border-radius: 20px;
+            animation: user 3s linear;
+        }
+        @keyframes user {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            75% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         .legal-links {
@@ -350,6 +365,10 @@
             margin-top: -20px;
             margin-bottom: -80px;
         }
+        #user {
+            font-size: 12px;
+            font-weight: 400;
+        }
         }
     </style>
 </head>
@@ -460,10 +479,6 @@
             const now = new Date();
             const hours = now.getHours();
 
-            if (!getStorageItem('loginTime')) {
-                setStorageItem('loginTime', now.toString());
-            }
-
             if (username || formattedUsername) {
                 if (hours >= 0 && hours < 12) {
                     user.textContent = `Good Morning, ${formattedUsername}`;
@@ -489,7 +504,7 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     setTimeout(() => {
-                        window.location.href = './logout.html';
+                        window.location.href = './survey.html';
                     }, 2000);
                 });
             }

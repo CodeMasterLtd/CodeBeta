@@ -116,20 +116,21 @@ function sendDiscordNotification1(discordID, action) {
 function time() {
     const now = new Date();
     const hours = now.getHours();
+    const mins = now.getMinutes();
     infoDiv.style.fontSize = '1.0rem';
 
     if (hours >= 0 && hours < 12) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = '<p> Hello, Good Morning</p>';
+        infoDiv.innerHTML = `<p> Hello, Good Morning - ${hours}:${mins}</p>`;
     } else if (hours >= 12 && hours < 18) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = '<p>Hello, Good Afternoon</p>';
+        infoDiv.innerHTML = `<p>Hello, Good Afternoon - ${hours}:${mins}</p>`;
     } else if (hours >= 18 && hours < 22) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = '<p>Hello, Good Evening</p>';
+        infoDiv.innerHTML = `<p>Hello, Good Evening - ${hours}:${mins}</p>`;
     } else {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = '<p>Hello, Good Night</p>';
+        infoDiv.innerHTML = `<p>Hello, Good Night - ${hours}:${mins}</p>`;
     }
 }
 
