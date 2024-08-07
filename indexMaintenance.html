@@ -179,7 +179,7 @@ p {
         function scheduleDailyNotification() {
             const now = new Date();
             const midnight = new Date();
-            midnight.setHours(19, 0, 0, 0);
+            midnight.setHours(24, 0, 0, 0);
             const timeUntilMidnight = midnight.getTime() - now.getTime();
     
             setTimeout(() => {
