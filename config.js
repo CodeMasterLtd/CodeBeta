@@ -1,6 +1,6 @@
 // config.js
 export const config = {
-    maintenance: false
+    maintenance: 'online' // online, offline, down
 };
 
 export function getWebhook() {

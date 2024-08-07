@@ -117,20 +117,21 @@ function time() {
     const now = new Date();
     const hours = now.getHours();
     const mins = now.getMinutes();
+    const formattedMins = mins < 10 ? '0' + mins : mins;
     infoDiv.style.fontSize = '1.0rem';
 
     if (hours >= 0 && hours < 12) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p> Hello, Good Morning - ${hours}:${mins}</p>`;
+        infoDiv.innerHTML = `<p> Hello, Good Morning - ${hours}:${formattedMins}</p>`;
     } else if (hours >= 12 && hours < 18) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Afternoon - ${hours}:${mins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Afternoon - ${hours}:${formattedMins}</p>`;
     } else if (hours >= 18 && hours < 22) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Evening - ${hours}:${mins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Evening - ${hours}:${formattedMins}</p>`;
     } else {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Night - ${hours}:${mins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Night - ${hours}:${formattedMins}</p>`;
     }
 }
 

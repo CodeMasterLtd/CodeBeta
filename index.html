@@ -81,7 +81,7 @@ if (showAds) {
     import { config } from './config.js';
 
     window.onload = function() {
-        if (config.maintenance) {
+        if (config.maintenance === 'offline' || config.maintenance === 'down') {
             window.location.href = 'indexMaintenance.html';  
         } else {
             console.log('Welcome to the site.');
