@@ -14,7 +14,7 @@ const initialAdmins = [
         "name": "Kieran",
         "password": "Caitlin",
         "role": "CEO",
-        "discordPhoto": 'https://cdn.discordapp.com/avatars/1030462659092545546/600bd29a4928ee579815a44e2fd17515.png?size=1024'
+        "discordPhoto": 'https://cdn.discordapp.com/avatars/1030462659092545546/1921ffc3a336d581c777d374865eb4fc.png?size=1024'
     },
     {
         "discordID": "794738803600261120", // COO
