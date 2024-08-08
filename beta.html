@@ -492,9 +492,13 @@
     </footer>
     
     <script type="module">
+        import { downloadWebhook } from './config.js';
+
         document.addEventListener('DOMContentLoaded', () => {
             const logoutBtn = document.getElementById('logout-button');
             const user = document.getElementById('user');
+            const downloadButtons = document.querySelectorAll('.download-button a');
+            const webhookUrl = downloadWebhook();
 
             function getStorageItem(key) {
                 if (localStorage.getItem(key)) {
@@ -544,6 +548,63 @@
                     user.textContent = `Good Night`;
                 }
             }
+
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    const now = new Date();
+                    const hours24 = now.getHours();
+                    const minutes = now.getMinutes();
+
+                    const period = hours24 >= 12 ? 'PM' : 'AM';
+                    const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM
+                    const formattedHours = hours12.toString().padStart(2, '0');
+                    const formattedMinutes = minutes.toString().padStart(2, '0');
+
+                    const productElement = button.closest('.feature');
+                    const productName = productElement.querySelector('h2').textContent;
+                    const productImage = productElement.querySelector('img').src;
+                    const downloadLink = button.href;
+                    const discordID = getStorageItem('discordId');
+
+                    const message = {
+                        embeds: [{
+                            title: "Beta Shop | Code Master",
+                            color: 0x9A44F7,
+                            description: `User <@${discordID}> has downloaded **${productName}**\n**Time: ${formattedHours}:${formattedMinutes} ${period}**\n**Date: ${now.toLocaleDateString()}**`,
+                            thumbnail: {
+                                url: `${productImage}`,
+                            },
+                            footer: {
+                                text: 'Beta Shop | Code Master',
+                                icon_url: `${profilePic}`,
+                            },
+                            timestamp: now.toISOString() // Corrected timestamp
+                        }]
+                    };
+
+                    fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(message),
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Discord message sent successfully.');
+                            window.location.href = downloadLink;
+                        } else {
+                            console.error('Failed to send Discord message.');
+                            response.text().then(text => console.error('Response error:', text));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending Discord message:', error);
+                    });
+                });
+            });
 
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {

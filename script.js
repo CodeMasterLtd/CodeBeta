@@ -1,5 +1,7 @@
 import { getUsers, updateUserPassword } from './users.js';
-import { getWebhook } from './config.js';
+import { getWebhook , version} from './config.js';
+
+document.getElementById('version').innerText = version;
 
 const loginForm = document.getElementById('login-form');
 const resetForm = document.getElementById('reset-form');
@@ -234,17 +236,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (user) {
                 loginForm.style.display = 'none';
-
+            
                 infoDiv.style.fontSize = '1.2em';
                 infoDiv.style.color = 'green';
                 infoDiv.innerHTML = '<p>Login successful! Redirecting...</p>';
+            
                 if (user.name === 'codemaster' || user.name === 'CodeMaster') {
-                    console.log('Discord log not sent: User is CodeMaster');
+                    return;
                 } else {
-                    setTimeout(() => {
                     sendDiscordNotification1(user.discordID, 'has successfully logged in.');
-                }, 5000);
-                }
+                }           
 
                 setStorageItem('username', username);
                 setStorageItem('user-role', user.role);

@@ -1,9 +1,35 @@
+@font-face {
+    font-family: 'CodeMasterD7';
+    src: url('./fonts/D7-Reg.ttf');
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0; 
     background-color: #00000000;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#version-container {
+    text-align: left;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffffa9;
+    margin-bottom: -25px;
+    margin-top: 10px;
+    margin-left: -20px;
+    border-radius: 10px;
+}
+
+.font-v {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.font-version {
+    font-family: 'CodeMasterD7', sans-serif; /* Change to your preferred font */
+    letter-spacing: 2px;
 }
 
 .popup {
