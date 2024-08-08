@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="img/logo2.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <link rel="canonical" href="https://www.beta.codemaster.ltd/">
+    <link rel="icon" href="img/logo2.png"><!-- 32×32 -->
     <link rel="icon" href="img/logo2.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/logo2.png"><!-- 180×180 -->
+    <link rel="apple-touch-icon-precomposed" href="img/logo2.png">
     <link rel="shortcut icon" href="img/logo2.png" type="image/png">
+    <meta property="og:url" content="https://www.beta.codemaster.ltd/">
+    <meta property="og:title" content="Code Master Beta by Code Master">
+
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Visit our beta page today.">
+    <meta property="og:site_name" content="beta.codemaster.ltd">
+    <meta property="og:image" content="img/logo2.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="382">
+    <meta property="og:image:height" content="200">
     <title>Beta Login | Code Master</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -28,12 +41,13 @@
     </div>
 </div>
         <h1 id="welcome"></h1>
-        <form id="login-form" style="display: block;">
-            <input type="text" id="username" placeholder="Username" name="identifier" required="true" tabindex="-1" spellcheck="false" autocomplete="current-password" autocapitalize="none">
-            <div class="password-container">
-                <input type="password" id="password" placeholder="Password" name="password" required="true" tabindex="1" spellcheck="false" autofocus autocomplete="off" autocapitalize="none">
+        <form autocomplete="on" id="login-form" style="display: block;">
+            <input type="text" id="username" placeholder="Username" tabindex="-1" spellcheck="false" required>
+            <div class="password-container ">
+                <input type="password" id="password" placeholder="Password" tabindex="1" spellcheck="false" required>
                 <span class="toggle-password" id="toggle-password" title="Show Password">🔓</span> <!-- Eye icon -->
             </div>
+            <p style="color: red; font-weight: 600;" id="text">WARNING! Caps lock is ON.</p>
             <button class="login" type="submit"></button>
             <br></br>
         </form>
@@ -52,41 +66,76 @@
         </footer>
     </div>
     <script src="script.js" type="module"></script>
-    <script src="config.js"></script>
     <script>
-        const showAds = false;
-        const def = 1000
-        function showPopup() {
-    document.getElementById('popupAd').style.display = 'flex';
-}
+        var input = document.getElementById("password");
+        var text = document.getElementById("text");
 
-function closePopup() {
-    document.getElementById('popupAd').style.display = 'none';
-}
+        function updateCapsLockWarning(event) {
+            const key = event.key.toLowerCase();
+            let isCapsLock = false;
+            let isShiftHeld = event.shiftKey; // Check if Shift key is held down
 
-function visitWebsite() {
-    window.open('https://discord.gg/XcEHvPR9qA', '_blank');
-    closePopup();
-}
+            if (key >= 'a' && key <= 'z') {
+                isCapsLock = (event.getModifierState && event.getModifierState('CapsLock')) ||
+                             (key !== event.key.toLowerCase() && !event.shiftKey);
+                
+                if (isCapsLock) {
+                    text.textContent = 'WARNING! Caps Lock is ON';
+                } else if (isShiftHeld) {
+                    text.textContent = 'WARNING! Shift key is held down';
+                } else {
+                    text.textContent = '';
+                }
 
-// Show the popup ad after a delay (e.g., 5 seconds)
-if (showAds) {
-    window.onload = function() {
-    setTimeout(showPopup, def);
-};
-}
-</script>
-
-<script type="module">
-    import { config } from './config.js';
-
-    window.onload = function() {
-        if (config.maintenance === 'offline' || config.maintenance === 'down') {
-            window.location.href = 'indexMaintenance.html';  
-        } else {
-            console.log('Welcome to the site.');
+                text.style.display = text.textContent ? 'block' : 'none';
+            } else {
+                text.style.display = 'none';
+            }
         }
-    };
-</script>
+
+        function checkInitialCapsLock() {
+            text.style.display = 'none';
+        }
+
+        input.addEventListener('keydown', updateCapsLockWarning); // Use 'keydown' to detect keys as they are pressed
+        input.addEventListener('keyup', updateCapsLockWarning);   // Optional: to clear the warning when keys are released
+
+        checkInitialCapsLock();
+
+        const showAds = false;
+        const def = 1000;
+
+        function showPopup() {
+            document.getElementById('popupAd').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popupAd').style.display = 'none';
+        }
+
+        function visitWebsite() {
+            window.open('https://discord.gg/XcEHvPR9qA', '_blank');
+            closePopup();
+        }
+
+        if (showAds) {
+            window.onload = function() {
+                setTimeout(showPopup, def);
+            };
+        }
+    </script>
+
+    <script type="module">
+        import { config } from './config.js';
+
+        // Perform maintenance check and handle redirection
+        if (config.maintenance === 'offline' || config.maintenance === 'down') {
+            console.log('Redirecting to indexMaintenance.html');
+            window.location.href = 'indexMaintenance.html';  
+        } else if (config.maintenance === 'online') {
+            console.log('Welcome to the site.');
+            // Optionally, you can also check for other conditions or perform other actions here
+        }  
+    </script>
 </body>
 </html>

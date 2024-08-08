@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0; 
     background-color: #00000000;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .popup {
@@ -344,5 +344,7 @@ footer {
         background-clip: padding-box;
     }
 }
+
+
 
 

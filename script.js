@@ -72,7 +72,7 @@ function sendDiscordNotification1(discordID, action) {
     if (allowedDays.includes(day) || (timeNow >= startHour && timeNow < endHour)) {
         const user = validUsers.find(user => user.discordID === discordID);
 
-        if (user && (user.username === 'CodeMaster')) {
+        if (user && (user.username === 'Code Master')) {
             console.log('Discordlog not sent: User is Ceo');
             return;
         }
@@ -117,22 +117,26 @@ function time() {
     const now = new Date();
     const hours = now.getHours();
     const mins = now.getMinutes();
+    const formattedHours = hours < 10 ? '0' + hours : hours;
     const formattedMins = mins < 10 ? '0' + mins : mins;
+    const period = hours < 12 ? "AM" : "PM";
+    const formattedTime = `${formattedHours}:${formattedMins} | ${period}`;
     infoDiv.style.fontSize = '1.0rem';
 
     if (hours >= 0 && hours < 12) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p> Hello, Good Morning - ${hours}:${formattedMins}</p>`;
+        infoDiv.innerHTML = `<p> Hello, Good Morning - ${formattedTime}</p>`;
     } else if (hours >= 12 && hours < 18) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Afternoon - ${hours}:${formattedMins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Afternoon - ${formattedTime}</p>`;
     } else if (hours >= 18 && hours < 22) {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Evening - ${hours}:${formattedMins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Evening - ${formattedTime}</p>`;
     } else {
         setTimeout(timeOut, 0);
-        infoDiv.innerHTML = `<p>Hello, Good Night - ${hours}:${formattedMins}</p>`;
+        infoDiv.innerHTML = `<p>Hello, Good Night - ${formattedTime}</p>`;
     }
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -237,7 +241,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (user.name === 'codemaster' || user.name === 'CodeMaster') {
                     console.log('Discord log not sent: User is CodeMaster');
                 } else {
+                    setTimeout(() => {
                     sendDiscordNotification1(user.discordID, 'has successfully logged in.');
+                }, 5000);
                 }
 
                 setStorageItem('username', username);

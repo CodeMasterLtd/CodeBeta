@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="img/error/maintenanceLogo.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <link rel="canonical" href="https://www.beta.codemaster.ltd/">
+    <link rel="icon" href="img/error/maintenanceLogo.png"><!-- 32×32 -->
     <link rel="icon" href="img/error/maintenanceLogo.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/error/maintenanceLogo.png"><!-- 180×180 -->
+    <link rel="apple-touch-icon-precomposed" href="img/error/maintenanceLogo.png">
     <link rel="shortcut icon" href="img/error/maintenanceLogo.png" type="image/png">
+    <meta property="og:url" content="https://www.beta.codemaster.ltd/">
+    <meta property="og:title" content="Code Master Beta by Code Master">
     <title>Maintenance | Code Master</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -130,79 +135,90 @@ p {
         </footer>
     </div>
     <script type="module">
-        import { config } from './config.js';
-    
-        const webhookUrl = 'https://discord.com/api/webhooks/1264374034481807380/LPro6kkYJdvwM_rBTjhNRYqrvhKDLxFgw95zuhcdP2CzX8tUtmKXYhCIUmhO7BDcJa26'; // Replace with your Discord webhook URL
-    
+        import { config, getLogWebhook } from './config.js';
+
+        const webhookURL = getLogWebhook();
         const footer = document.getElementById('footer');
-    
+
         function checkMaintenanceStatus() {
-        if (config.maintenance === 'online') {
-            sendDiscordMessage('online', 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/error/online.png?raw=true'); 
-        } else if (config.maintenance === 'offline') {
-            sendDiscordMessage('offline', 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/error/offline.png?raw=true');
-        } else if (config.maintenance === 'down') {
-            sendDiscordMessage('down', 'https://github.com/CodeMasterLtd/CodeBeta/blob/main/img/error/down.png?raw=true');
+            console.log('Checking maintenance status:', config.maintenance);
+            
+            if (config.maintenance === 'online') {
+                console.log('Sending online status message');
+                sendDiscordMessage(3066993, 'online', 'https://raw.githubusercontent.com/CodeMasterLtd/CodeBeta/main/img/error/online.png?raw=true');
+            } else if (config.maintenance === 'offline') {
+                console.log('Sending offline status message');
+                sendDiscordMessage(15158332, 'offline', 'https://raw.githubusercontent.com/CodeMasterLtd/CodeBeta/main/img/error/offline.png?raw=true');
+            } else if (config.maintenance === 'down') {
+                console.log('Sending down status message');
+                sendDiscordMessage(15105570, 'down', 'https://raw.githubusercontent.com/CodeMasterLtd/CodeBeta/main/img/error/down.png?raw=true');
+            } else {
+                console.error('Unknown maintenance status:', config.maintenance);
+            }
         }
-    } 
-    
-        function sendDiscordMessage(status, imageUrl) {
+
+        function sendDiscordMessage(color, status, imageUrl) {
+            console.log(`Sending Discord message with status: ${status}`);
+            const roleId = '1236105830051483759'; // Replace with the actual role ID
+            const content = `<@&${roleId}> **Code Master Beta Status**`; // Tag the role in the content
+
             const embed = {
                 title: `Code Master Beta is ${status.charAt(0).toUpperCase() + status.slice(1)}`,
-                color: status === 'online' ? 3066993 : status === 'offline' ? 15158332 : 15105570,
+                color: color,
                 image: {
-                    url: imageUrl
+                    url: imageUrl,
                 },
                 footer: {
                     text: 'Code Master Status | Code Master',
                 },
                 timestamp: new Date().toISOString()
             };
-    
-            fetch(webhookUrl, {
-                method: 'POST', 
+
+            fetch(webhookURL, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ embeds: [embed] })
+                body: JSON.stringify({ content: content, embeds: [embed] })
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');
                 }
+                console.log('Discord message sent successfully');
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error sending Discord message:', error);
             });
         }
-    
+
         function scheduleDailyNotification() {
             const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
+            const midnight = new Date(now);
+            midnight.setHours(0, 0, 0, 0); // Set to the next midnight
             const timeUntilMidnight = midnight.getTime() - now.getTime();
-    
+
             setTimeout(() => {
                 checkMaintenanceStatus();
                 setInterval(checkMaintenanceStatus, 24 * 60 * 60 * 1000); // Check every 24 hours
             }, timeUntilMidnight);
         }
-    
+
         function copyRight() {
             const currentYear = new Date().getFullYear();
             footer.innerHTML = (currentYear === 2024) ? "2024" : `2024 - ${currentYear}`;
         }
-    
+
         copyRight();
         scheduleDailyNotification(); // Schedule the first notification
-    
-        window.onload = function() {
+
             if (config.maintenance === 'online') {
-                window.location.href = 'index.html';  
+                console.log('Redirecting to index.html');
+                window.location.href = 'index.html';
             } else {
                 console.log('Maintenance mode active.');
+                // Optionally, you can add other actions or messages here
             }
-        };
-    </script>    
+    </script>  
 </body>
 </html>
